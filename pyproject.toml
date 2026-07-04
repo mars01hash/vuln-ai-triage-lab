@@ -1,7 +1,7 @@
 [project]
 name = "vuln-ai-triage-lab"
-version = "0.1.0"
-description = "Runnable MVP for AI-assisted AppSec vulnerability triage"
+version = "0.3.0"
+description = "v3 AppSec AI triage lab with ML, vector memory, optional LLM, feedback, and WAF policy gates"
 requires-python = ">=3.10"
 dependencies = [
     "fastapi>=0.110.0",

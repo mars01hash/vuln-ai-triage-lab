@@ -16,6 +16,8 @@ def write_markdown_report(results: list[NormalizedFinding], output_path: str | P
     source_counts = Counter(item.source_type.value for item in results)
     waf_allowed = sum(1 for item in results if item.waf_rule_allowed)
     duplicates = sum(1 for item in results if item.duplicate_of)
+    agent_modes = Counter(item.agent_mode for item in results)
+    memory_backends = Counter(item.memory_backend for item in results)
 
     by_asset: dict[str, list[NormalizedFinding]] = defaultdict(list)
     for item in results:
@@ -30,6 +32,8 @@ def write_markdown_report(results: list[NormalizedFinding], output_path: str | P
     lines.append(f"- Duplicate/similar findings detected: **{duplicates}**")
     lines.append(f"- WAF rule proposals allowed: **{waf_allowed}**")
     lines.append(f"- WAF proposals blocked/suppressed: **{len(results) - waf_allowed}**")
+    lines.append(f"- Agent modes used: **{dict(agent_modes)}**")
+    lines.append(f"- Memory backends used: **{dict(memory_backends)}**")
     lines.append("")
 
     lines.append("## Risk Distribution")
@@ -58,12 +62,12 @@ def write_markdown_report(results: list[NormalizedFinding], output_path: str | P
 
     lines.append("## Highest Priority Findings")
     lines.append("")
-    lines.append("| Finding | Asset | CWE | Risk | Score | Reachable | WAF Allowed |")
-    lines.append("|---|---|---|---|---:|---|---|")
+    lines.append("| Finding | Asset | CWE | Risk | Score | Reachable | WAF Allowed | Agent |")
+    lines.append("|---|---|---|---|---:|---|---|---|")
     for item in sorted(results, key=lambda r: r.priority_score, reverse=True)[:10]:
         lines.append(
             f"| {item.finding_id} | {item.asset} | {item.canonical_cwe} | {item.risk_level} "
-            f"| {item.priority_score:.3f} | {item.reachable} | {item.waf_rule_allowed} |"
+            f"| {item.priority_score:.3f} | {item.reachable} | {item.waf_rule_allowed} | {item.agent_mode} |"
         )
     lines.append("")
 
@@ -78,6 +82,8 @@ def write_markdown_report(results: list[NormalizedFinding], output_path: str | P
             lines.append(f"  - Reason: {item.reasoning_summary}")
             if item.safety_notes:
                 lines.append(f"  - Safety: {'; '.join(item.safety_notes)}")
+            if item.approval_required_actions:
+                lines.append(f"  - Human approval actions: {', '.join(item.approval_required_actions)}")
         lines.append("")
 
     lines.append("## Notes for Interview Discussion")

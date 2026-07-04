@@ -1,45 +1,60 @@
-# Vulnerability AI Triage Lab v2
+# Vulnerability AI Triage Lab v3
 
-A runnable AppSec AI MVP for **CWE normalization**, **entity extraction**, **deduplication**, **Bayesian-style priority scoring**, **reachability gating**, **LLM-style triage**, and **WAF proposal safety gating**.
+A runnable AppSec AI project for **CWE normalization**, **ML classification**, **entity extraction**, **persistent vector-style vulnerability memory**, **deduplication**, **Bayesian-style priority scoring**, **reachability gating**, **optional LLM triage**, **WAF policy gating**, and **human feedback logging**.
 
-Version 2 adds a trainable **scikit-learn CWE classifier**, persistent memory, Markdown batch reports, and ML evaluation mode.
+Version 3 upgrades v2 with:
+
+- SQLite-backed persistent vector memory
+- Embedding provider abstraction
+- Optional Sentence-Transformers / Chroma upgrade path
+- Optional OpenAI LLM triage agent with local fallback
+- Human approval action policy
+- Human feedback API
+- Better report fields for agent mode and memory backend
+- Docker Compose support
 
 ---
 
-## 1. What this project demonstrates
-
-This project simulates the architecture needed for an AI-powered vulnerability intelligence system:
+## 1. Architecture
 
 ```text
-SAST/DAST/SCA Findings
+SAST / DAST / SCA Findings
         ↓
 Canonical Schema
         ↓
 CWE Normalization
+  ├─ rule-based mode
+  └─ ML TF-IDF + Logistic Regression mode
         ↓
 Entity Extraction
         ↓
-Duplicate/Similarity Memory
+Vector Memory / Deduplication
+  ├─ default: SQLite + hash embeddings
+  └─ optional: Chroma + Sentence-Transformers
         ↓
 Reachability Gate
         ↓
 Bayesian-style Priority Score
         ↓
-Triage + Fix Recommendation
+WAF Proposal Gate
         ↓
-WAF Proposal Gate + Human Approval
+Agentic Triage Explanation
+  ├─ default: local deterministic agent
+  └─ optional: OpenAI JSON agent with fallback
+        ↓
+Human Approval / Feedback Loop
 ```
 
-The key design principle is:
+Main design principle:
 
-> LLM/agent output should assist and explain. Safety-sensitive decisions must be enforced by deterministic code.
+> LLMs explain and assist. Classification, scoring, WAF eligibility, and human approval gates are enforced by deterministic code.
 
 ---
 
 ## 2. Setup
 
 ```bash
-cd vuln-ai-triage-lab
+cd vuln-ai-triage-lab-v3
 python -m venv .venv
 ```
 
@@ -55,32 +70,23 @@ python -m venv .venv
 source .venv/bin/activate
 ```
 
-Install dependencies:
+Install default runnable dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
----
-
-## 3. Run the rule-based MVP
+Optional advanced dependencies:
 
 ```bash
-python -m app.cli --input data/sample_findings_all.json --pretty
+pip install -r requirements-advanced.txt
 ```
 
-Save output:
-
-```bash
-python -m app.cli \
-  --input data/sample_findings_all.json \
-  --output output/results_rules.json \
-  --pretty
-```
+Default mode does **not** require OpenAI, Chroma, Sentence-Transformers, or a GPU.
 
 ---
 
-## 4. Train the ML CWE classifier
+## 3. Train the ML CWE classifier
 
 ```bash
 python -m app.ml.train_cwe_classifier \
@@ -89,80 +95,66 @@ python -m app.ml.train_cwe_classifier \
   --metrics output/cwe_training_metrics.json
 ```
 
-Or use the helper script:
+---
+
+## 4. Run v3 CLI demo
+
+```bash
+python -m app.cli \
+  --input data/sample_findings_all.json \
+  --use-ml \
+  --memory-backend sqlite \
+  --memory-file output/v3_memory.sqlite \
+  --output output/v3_results.json \
+  --report output/v3_report.md \
+  --pretty
+```
+
+Fast script:
 
 ### Windows
 
 ```bash
-scripts\train_model.bat
+scripts\run_v3_demo.bat
 ```
 
 ### Linux/macOS
 
 ```bash
-bash scripts/train_model.sh
+./scripts/run_v3_demo.sh
 ```
 
 ---
 
-## 5. Run with the trained ML classifier
+## 5. Optional LLM triage mode
+
+The project runs locally without LLMs. To enable OpenAI triage text:
+
+```bash
+pip install -r requirements-advanced.txt
+set OPENAI_API_KEY=your_key_here   # Windows CMD
+# or
+export OPENAI_API_KEY=your_key_here
+```
+
+Then run:
 
 ```bash
 python -m app.cli \
   --input data/sample_findings_all.json \
   --use-ml \
+  --use-llm \
+  --llm-model gpt-4o-mini \
+  --memory-backend sqlite \
+  --memory-file output/v3_memory.sqlite \
   --pretty
 ```
 
-Save output + report:
-
-```bash
-python -m app.cli \
-  --input data/sample_findings_all.json \
-  --use-ml \
-  --output output/results_ml.json \
-  --report output/batch_report.md \
-  --pretty
-```
+If the key or package is missing, the system falls back to local deterministic triage and records that in `agent_mode`.
 
 ---
 
-## 6. Use persistent vulnerability memory
-
-This simulates organizational vulnerability memory across runs.
-
-```bash
-python -m app.cli \
-  --input data/sample_findings_all.json \
-  --memory-file output/memory.json \
-  --output output/run_1.json \
-  --pretty
-```
-
-Run the same command again and you should see more duplicate/similar findings because previous records were stored.
-
----
-
-## 7. Run evaluation
-
-Rule-based evaluation:
-
-```bash
-python -m app.evaluation.evaluate --input data/eval_labeled_findings.json
-```
-
-ML evaluation:
-
-```bash
-python -m app.evaluation.evaluate \
-  --input data/eval_labeled_findings.json \
-  --use-ml \
-  --model-path models/cwe_tfidf_logreg.joblib
-```
-
----
-
-## 8. Run FastAPI server
+## 6. Run FastAPI server
 
 ```bash
 uvicorn app.main:app --reload
@@ -174,25 +166,26 @@ Open:
 http://127.0.0.1:8000/docs
 ```
 
-Main endpoints:
+Useful endpoints:
 
 | Endpoint | Purpose |
 |---|---|
 | `POST /triage` | Triage one finding |
-| `POST /triage/batch` | Triage multiple findings |
-| `GET /memory/summary` | Show API memory stats |
+| `POST /triage/batch` | Triage many findings |
+| `GET /memory/summary` | SQLite vector memory summary |
+| `POST /feedback` | Save human reviewer feedback |
+| `GET /feedback/summary` | Feedback counts |
 
-Use ML mode by adding query parameter:
+Example query flags:
 
 ```text
-POST /triage?use_ml=true
+POST /triage?use_ml=true&use_llm=false
+POST /triage/batch?use_ml=true&use_llm=true&llm_model=gpt-4o-mini
 ```
-
-Make sure you train the model first.
 
 ---
 
-## 9. Run tests
+## 7. Run tests
 
 ```bash
 pytest
@@ -200,37 +193,54 @@ pytest
 
 ---
 
-## 10. Interview explanation
+## 8. Run evaluation
 
-You can explain the project like this:
+Rule mode:
 
-> I built a modular vulnerability intelligence pipeline. The ingestion layer normalizes scanner findings, the CWE module maps heterogeneous findings into a canonical weakness taxonomy, the memory module detects duplicate/similar findings, reachability reduces SAST noise, scoring produces an auditable priority score, and the agent layer generates triage/fix recommendations. WAF rule eligibility is enforced outside the LLM through deterministic system-level safety gates.
+```bash
+python -m app.evaluation.evaluate --input data/eval_labeled_findings.json
+```
+
+ML mode:
+
+```bash
+python -m app.evaluation.evaluate --input data/eval_labeled_findings.json --use-ml
+```
 
 ---
 
-## 11. Current MVP vs production upgrade
+## 9. Docker
 
-| Area | Current v2 | Production upgrade |
+```bash
+docker compose up --build
+```
+
+Then open:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+---
+
+## 10. What makes v3 different from v2?
+
+| Area | v2 | v3 |
 |---|---|---|
-| CWE classifier | TF-IDF + Logistic Regression | Fine-tuned Transformer / CodeBERT |
-| Embeddings | Hash-based vectors | Sentence-Transformers / BGE / OpenAI embeddings |
-| Vector DB | JSON/in-memory | Qdrant / Chroma / FAISS / pgvector |
-| Agent | Local deterministic triage | LangGraph + structured LLM output |
-| Reachability | Simple/mock gate | CodeQL / Joern / real callgraph/data-flow |
-| WAF | Proposal only | ModSecurity/Cloudflare/AWS WAF approval workflow |
-| Evaluation | Basic accuracy | Calibration, rank metrics, drift, approval feedback |
+| Memory | JSON/in-memory | SQLite vector-style persistent memory by default |
+| Embeddings | Hash only | Embedding provider abstraction + optional Sentence-Transformers |
+| Vector DB | Not included | SQLite default + optional Chroma adapter |
+| Agent | Local deterministic | Local + optional OpenAI JSON LLM with fallback |
+| Approval | WAF human approval flag | Explicit approval action policy |
+| Feedback | Not included | Human feedback JSONL store + API endpoints |
+| Reporting | Basic batch report | Adds agent mode, memory backend, approval actions |
 
 ---
 
-## 12. Files to inspect first
+## 11. Interview explanation
 
-| File | Why important |
-|---|---|
-| `app/pipeline.py` | Main orchestration flow |
-| `app/schemas.py` | Canonical vulnerability schema |
-| `app/ml/train_cwe_classifier.py` | Trainable CWE classifier |
-| `app/ml/cwe_ml_classifier.py` | ML prediction wrapper |
-| `app/scoring/bayesian_score.py` | Priority scoring logic |
-| `app/waf/waf_gate.py` | Safety gate for WAF proposals |
-| `app/reporting/report_writer.py` | Batch Markdown report |
-| `reports/next_stage_design.md` | Design reasoning for v2 |
+You can explain v3 like this:
+
+> I designed the system as a modular AppSec AI pipeline. Scanner outputs are converted to a canonical vulnerability schema, then CWE-normalized using either rules or a trainable ML classifier. Findings are embedded and stored in persistent SQLite vector memory for deduplication and organizational memory. A reachability gate and Bayesian-style scoring layer prioritize findings using CVSS, exploitability, business context, and confidence. The LLM agent is optional and only generates triage explanation text; safety-sensitive decisions like WAF eligibility and approval requirements are enforced by deterministic policy code.
+
+That answer directly matches the company’s requirements around CWE normalization, vector retrieval, Bayesian scoring, agentic triage, and system-level human approval gates.

@@ -1,15 +1,20 @@
 # Triage Agent Module
 
-This component mimics local advisory LLM actions using deterministic logic to produce scheduling decisions and remediation fix text.
+This component coordinates scheduling decisions and natural language remediation logs using either local deterministic rule models or optional OpenAI LLM agents.
 
 ## Files
-* `triage_agent.py`: Local triage agent logic.
+* `triage_agent.py`: Local deterministic triage logic.
+* `llm_agent.py`: Optional OpenAI JSON agent with automatic local rules fallback.
+* `agent_graph.py`: Simple workflow graph wrapper to outline execution order.
 
 ## Python Usage
+Using OpenAI agent with fallback:
 ```python
-from app.agents.triage_agent import local_triage_agent
+from app.agents.llm_agent import run_llm_or_local_triage
 
-decision, explanation, fix_advice = local_triage_agent(
+# Automatically runs OpenAI if use_llm=True and key is set;
+# otherwise falls back to local triage.
+decision, explanation, fix_advice, agent_mode = run_llm_or_local_triage(
     finding,
     canonical_cwe="CWE-89",
     cwe_name="SQL Injection",
@@ -17,12 +22,13 @@ decision, explanation, fix_advice = local_triage_agent(
     risk_level="critical",
     reachable=True,
     duplicate_of=None,
-    waf_rule_allowed=True
+    waf_rule_allowed=True,
+    use_llm=True,
+    model="gpt-4o-mini"
 )
 
-print(f"Action: {decision}")
-print(f"Remediation Guide: {fix_advice}")
+print(f"Agent: {agent_mode}, Decision: {decision}")
 ```
 
 ## Why it works
-Using LLMs to make final blocking choices can introduce hallucination and latency. This module uses deterministic mapping for final queue scheduling, but wraps it in natural language summaries and CWE fix instructions for a developer-friendly experience.
+Placing critical security routing decisions inside generative models introduces security risks (hallucinations and prompt injections). The triage agent splits responsibilities: classification and risk scoring are enforced in code, while explanation text is delegated to LLMs with stable error fallbacks.

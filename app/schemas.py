@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from enum import Enum
-from typing import Any, Optional
+from typing import Any, Optional, Literal
 from pydantic import BaseModel, Field
 
 
@@ -93,3 +93,18 @@ class NormalizedFinding(BaseModel):
     proposed_waf_rule: Optional[str] = None
     human_approval_required: bool = True
     safety_notes: list[str] = Field(default_factory=list)
+
+    agent_mode: str = "local_rules"
+    memory_backend: str = "in_memory"
+    approval_required_actions: list[str] = Field(default_factory=list)
+
+
+class TriageFeedback(BaseModel):
+    finding_id: str
+    decision: Literal["approved", "rejected", "needs_changes", "false_positive", "true_positive"]
+    reviewer: Optional[str] = None
+    notes: Optional[str] = None
+    corrected_cwe: Optional[str] = None
+    corrected_priority: Optional[str] = None
+    waf_rule_approved: Optional[bool] = None
+    remediation_approved: Optional[bool] = None

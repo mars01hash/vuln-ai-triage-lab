@@ -1,0 +1,439 @@
+[
+  {
+    "finding_id": "SAST-001",
+    "source_type": "SAST",
+    "tool_name": "Semgrep",
+    "title": "Possible SQL Injection",
+    "description": "Unsanitized input from parameter id reaches raw SQL query in app/routes/orders.py",
+    "asset": "payment-api",
+    "canonical_cwe": "CWE-89",
+    "cwe_name": "SQL Injection",
+    "cwe_confidence": 0.419,
+    "evidence": [
+      "ML classifier prediction",
+      "possible",
+      "injection",
+      "unsanitized",
+      "input",
+      "from",
+      "parameter",
+      "reaches",
+      "query"
+    ],
+    "entities": {
+      "endpoint": "/api/orders",
+      "parameter": "id",
+      "package": null,
+      "version": null,
+      "attack_type": "SQL Injection",
+      "file_path": "app/routes/orders.py"
+    },
+    "reachable": true,
+    "reachability_reason": "Reachability supplied by input signal",
+    "duplicate_group_id": "VULN-GROUP-0001",
+    "duplicate_of": "SAST-001",
+    "similarity_to_duplicate": 1.0,
+    "priority_score": 0.716,
+    "risk_level": "high",
+    "scoring_factors": {
+      "cvss_weight": 0.88,
+      "cwe_confidence": 0.419,
+      "source_weight": 0.68,
+      "reachability_weight": 1.0,
+      "exploit_weight": 1.0,
+      "business_weight": 1.0,
+      "exposure_weight": 1.0,
+      "correlation_weight": 0.75,
+      "duplicate_weight": 0.88
+    },
+    "triage_decision": "review_duplicate_group",
+    "reasoning_summary": "Mapped to CWE-89 (SQL Injection). Priority score is 0.72, categorized as high. Reachability evidence indicates the vulnerable path is reachable. This appears similar to existing finding SAST-001, so deduplication review is recommended. WAF proposal is blocked or not eligible under safety constraints.",
+    "recommended_fix": "Use parameterized queries/prepared statements, validate input, and avoid string concatenation in SQL.",
+    "waf_rule_allowed": false,
+    "proposed_waf_rule": null,
+    "human_approval_required": true,
+    "safety_notes": [
+      "Blocked WAF proposal: SAST-only signals cannot trigger WAF rule generation."
+    ],
+    "agent_mode": "local_rules",
+    "memory_backend": "sqlite_vector_memory",
+    "approval_required_actions": [
+      "review_remediation_plan",
+      "review_duplicate_grouping"
+    ]
+  },
+  {
+    "finding_id": "SAST-002",
+    "source_type": "SAST",
+    "tool_name": "Semgrep",
+    "title": "Hardcoded API key found",
+    "description": "Secret key token in code inside settings.py",
+    "asset": "billing-worker",
+    "canonical_cwe": "CWE-798",
+    "cwe_name": "Use of Hard-coded Credentials",
+    "cwe_confidence": 0.424,
+    "evidence": [
+      "ML classifier prediction",
+      "hardcoded",
+      "found",
+      "secret",
+      "token",
+      "code",
+      "inside",
+      "settings.py",
+      "semgrep"
+    ],
+    "entities": {
+      "endpoint": null,
+      "parameter": null,
+      "package": null,
+      "version": null,
+      "attack_type": "Hard-coded Secret",
+      "file_path": "settings.py"
+    },
+    "reachable": false,
+    "reachability_reason": "Reachability supplied by input signal",
+    "duplicate_group_id": "VULN-GROUP-0002",
+    "duplicate_of": "SAST-002",
+    "similarity_to_duplicate": 1.0,
+    "priority_score": 0.543,
+    "risk_level": "medium",
+    "scoring_factors": {
+      "cvss_weight": 0.75,
+      "cwe_confidence": 0.424,
+      "source_weight": 0.68,
+      "reachability_weight": 0.42,
+      "exploit_weight": 0.65,
+      "business_weight": 0.85,
+      "exposure_weight": 0.55,
+      "correlation_weight": 0.75,
+      "duplicate_weight": 0.88
+    },
+    "triage_decision": "review_duplicate_group",
+    "reasoning_summary": "Mapped to CWE-798 (Use of Hard-coded Credentials). Priority score is 0.54, categorized as medium. Reachability is not confirmed, so exploitation likelihood is reduced. This appears similar to existing finding SAST-002, so deduplication review is recommended. WAF proposal is blocked or not eligible under safety constraints.",
+    "recommended_fix": "Remove secrets from source code, rotate exposed credentials, and use a secret manager.",
+    "waf_rule_allowed": false,
+    "proposed_waf_rule": null,
+    "human_approval_required": true,
+    "safety_notes": [
+      "Blocked WAF proposal: SAST-only signals cannot trigger WAF rule generation."
+    ],
+    "agent_mode": "local_rules",
+    "memory_backend": "sqlite_vector_memory",
+    "approval_required_actions": [
+      "review_duplicate_grouping"
+    ]
+  },
+  {
+    "finding_id": "SAST-003",
+    "source_type": "SAST",
+    "tool_name": "Semgrep",
+    "title": "Reflected XSS sink",
+    "description": "User controlled value is written through innerHTML in web/src/Search.tsx",
+    "asset": "customer-portal",
+    "canonical_cwe": "CWE-79",
+    "cwe_name": "Cross-Site Scripting",
+    "cwe_confidence": 0.152,
+    "evidence": [
+      "ML classifier prediction",
+      "reflected",
+      "sink",
+      "user",
+      "controlled",
+      "value",
+      "written",
+      "through",
+      "innerhtml"
+    ],
+    "entities": {
+      "endpoint": "/search",
+      "parameter": "q",
+      "package": null,
+      "version": null,
+      "attack_type": "Cross-Site Scripting",
+      "file_path": "web/src/Search.tsx"
+    },
+    "reachable": true,
+    "reachability_reason": "Reachability supplied by input signal",
+    "duplicate_group_id": "VULN-GROUP-0003",
+    "duplicate_of": "SAST-003",
+    "similarity_to_duplicate": 1.0,
+    "priority_score": 0.577,
+    "risk_level": "medium",
+    "scoring_factors": {
+      "cvss_weight": 0.61,
+      "cwe_confidence": 0.152,
+      "source_weight": 0.68,
+      "reachability_weight": 1.0,
+      "exploit_weight": 0.65,
+      "business_weight": 0.85,
+      "exposure_weight": 1.0,
+      "correlation_weight": 0.75,
+      "duplicate_weight": 0.88
+    },
+    "triage_decision": "review_duplicate_group",
+    "reasoning_summary": "Mapped to CWE-79 (Cross-Site Scripting). Priority score is 0.58, categorized as medium. Reachability evidence indicates the vulnerable path is reachable. This appears similar to existing finding SAST-003, so deduplication review is recommended. WAF proposal is blocked or not eligible under safety constraints.",
+    "recommended_fix": "Encode output by context, sanitize untrusted HTML, and use safe templating APIs.",
+    "waf_rule_allowed": false,
+    "proposed_waf_rule": null,
+    "human_approval_required": true,
+    "safety_notes": [
+      "Blocked WAF proposal: SAST-only signals cannot trigger WAF rule generation."
+    ],
+    "agent_mode": "local_rules",
+    "memory_backend": "sqlite_vector_memory",
+    "approval_required_actions": [
+      "review_duplicate_grouping"
+    ]
+  },
+  {
+    "finding_id": "DAST-001",
+    "source_type": "DAST",
+    "tool_name": "OWASP ZAP",
+    "title": "SQL Injection",
+    "description": "SQL error detected from parameter id on /api/orders using payload ' OR 1=1 --",
+    "asset": "payment-api",
+    "canonical_cwe": "CWE-89",
+    "cwe_name": "SQL Injection",
+    "cwe_confidence": 0.408,
+    "evidence": [
+      "ML classifier prediction",
+      "injection",
+      "error",
+      "detected",
+      "from",
+      "parameter",
+      "orders",
+      "using",
+      "payload"
+    ],
+    "entities": {
+      "endpoint": "/api/orders",
+      "parameter": "id",
+      "package": null,
+      "version": null,
+      "attack_type": "SQL Injection",
+      "file_path": null
+    },
+    "reachable": true,
+    "reachability_reason": "Reachability supplied by input signal",
+    "duplicate_group_id": "VULN-GROUP-0004",
+    "duplicate_of": "DAST-001",
+    "similarity_to_duplicate": 1.0,
+    "priority_score": 0.75,
+    "risk_level": "high",
+    "scoring_factors": {
+      "cvss_weight": 0.91,
+      "cwe_confidence": 0.408,
+      "source_weight": 0.86,
+      "reachability_weight": 1.0,
+      "exploit_weight": 1.0,
+      "business_weight": 1.0,
+      "exposure_weight": 1.0,
+      "correlation_weight": 1.0,
+      "duplicate_weight": 0.88
+    },
+    "triage_decision": "review_duplicate_group",
+    "reasoning_summary": "Mapped to CWE-89 (SQL Injection). Priority score is 0.75, categorized as high. Reachability evidence indicates the vulnerable path is reachable. This appears similar to existing finding DAST-001, so deduplication review is recommended. A WAF virtual patch proposal can be reviewed by a human approver.",
+    "recommended_fix": "Use parameterized queries/prepared statements, validate input, and avoid string concatenation in SQL.",
+    "waf_rule_allowed": true,
+    "proposed_waf_rule": "SecRule ARGS:id \"(?i:(union\\s+select|select\\s+.*from|or\\s+1=1))\" \"id:100001,phase:2,deny,status:403,msg:'Proposed SQLi virtual patch for /api/orders'\"",
+    "human_approval_required": true,
+    "safety_notes": [
+      "WAF rule is only a proposal and requires human approval before deployment."
+    ],
+    "agent_mode": "local_rules",
+    "memory_backend": "sqlite_vector_memory",
+    "approval_required_actions": [
+      "review_waf_virtual_patch",
+      "review_remediation_plan",
+      "review_duplicate_grouping"
+    ]
+  },
+  {
+    "finding_id": "DAST-002",
+    "source_type": "DAST",
+    "tool_name": "OWASP ZAP",
+    "title": "Reflected Cross-Site Scripting",
+    "description": "Reflected script execution at /search?q=<script>alert(1)</script>",
+    "asset": "customer-portal",
+    "canonical_cwe": "CWE-79",
+    "cwe_name": "Cross-Site Scripting",
+    "cwe_confidence": 0.35,
+    "evidence": [
+      "ML classifier prediction",
+      "reflected",
+      "cross-site",
+      "scripting",
+      "script",
+      "execution",
+      "search?q=<script>alert(1)<",
+      "script>",
+      "search"
+    ],
+    "entities": {
+      "endpoint": "/search",
+      "parameter": "q",
+      "package": null,
+      "version": null,
+      "attack_type": "Cross-Site Scripting",
+      "file_path": null
+    },
+    "reachable": true,
+    "reachability_reason": "DAST finding implies endpoint was dynamically reachable",
+    "duplicate_group_id": "VULN-GROUP-0005",
+    "duplicate_of": "DAST-002",
+    "similarity_to_duplicate": 1.0,
+    "priority_score": 0.639,
+    "risk_level": "medium",
+    "scoring_factors": {
+      "cvss_weight": 0.61,
+      "cwe_confidence": 0.35,
+      "source_weight": 0.86,
+      "reachability_weight": 1.0,
+      "exploit_weight": 0.65,
+      "business_weight": 0.85,
+      "exposure_weight": 1.0,
+      "correlation_weight": 1.0,
+      "duplicate_weight": 0.88
+    },
+    "triage_decision": "review_duplicate_group",
+    "reasoning_summary": "Mapped to CWE-79 (Cross-Site Scripting). Priority score is 0.64, categorized as medium. Reachability evidence indicates the vulnerable path is reachable. This appears similar to existing finding DAST-002, so deduplication review is recommended. WAF proposal is blocked or not eligible under safety constraints.",
+    "recommended_fix": "Encode output by context, sanitize untrusted HTML, and use safe templating APIs.",
+    "waf_rule_allowed": false,
+    "proposed_waf_rule": null,
+    "human_approval_required": true,
+    "safety_notes": [
+      "Blocked WAF proposal: priority score below WAF proposal threshold 0.75."
+    ],
+    "agent_mode": "local_rules",
+    "memory_backend": "sqlite_vector_memory",
+    "approval_required_actions": [
+      "review_duplicate_grouping"
+    ]
+  },
+  {
+    "finding_id": "SCA-001",
+    "source_type": "SCA",
+    "tool_name": "OWASP Dependency-Check",
+    "title": "Vulnerable dependency log4j-core",
+    "description": "Dependency package log4j-core version 2.14.1 is affected by remote code execution and unsafe lookup behavior",
+    "asset": "reporting-service",
+    "canonical_cwe": "CWE-20",
+    "cwe_name": "Improper Input Validation",
+    "cwe_confidence": 0.462,
+    "evidence": [
+      "ML classifier prediction",
+      "vulnerable",
+      "dependency",
+      "log4j-core",
+      "package",
+      "version",
+      "2.14.1",
+      "affected",
+      "remote"
+    ],
+    "entities": {
+      "endpoint": null,
+      "parameter": null,
+      "package": "log4j-core",
+      "version": "2.14.1",
+      "attack_type": "Input Validation",
+      "file_path": null
+    },
+    "reachable": false,
+    "reachability_reason": "Reachability supplied by input signal",
+    "duplicate_group_id": "VULN-GROUP-0006",
+    "duplicate_of": "SCA-001",
+    "similarity_to_duplicate": 1.0,
+    "priority_score": 0.646,
+    "risk_level": "medium",
+    "scoring_factors": {
+      "cvss_weight": 1.0,
+      "cwe_confidence": 0.462,
+      "source_weight": 0.72,
+      "reachability_weight": 0.42,
+      "exploit_weight": 1.0,
+      "business_weight": 0.85,
+      "exposure_weight": 0.75,
+      "correlation_weight": 0.75,
+      "duplicate_weight": 0.88
+    },
+    "triage_decision": "review_duplicate_group",
+    "reasoning_summary": "Mapped to CWE-20 (Improper Input Validation). Priority score is 0.65, categorized as medium. Reachability is not confirmed, so exploitation likelihood is reduced. This appears similar to existing finding SCA-001, so deduplication review is recommended. WAF proposal is blocked or not eligible under safety constraints.",
+    "recommended_fix": "Validate, normalize, and constrain all untrusted input at trust boundaries.",
+    "waf_rule_allowed": false,
+    "proposed_waf_rule": null,
+    "human_approval_required": true,
+    "safety_notes": [
+      "Blocked WAF proposal: CWE-20 is not eligible for generic WAF virtual patching in this MVP."
+    ],
+    "agent_mode": "local_rules",
+    "memory_backend": "sqlite_vector_memory",
+    "approval_required_actions": [
+      "review_duplicate_grouping"
+    ]
+  },
+  {
+    "finding_id": "SCA-002",
+    "source_type": "SCA",
+    "tool_name": "OWASP Dependency-Check",
+    "title": "Package vulnerable to path traversal",
+    "description": "Package file-utils version 1.3.0 has arbitrary file read through path traversal ../ sequence",
+    "asset": "document-service",
+    "canonical_cwe": "CWE-22",
+    "cwe_name": "Path Traversal",
+    "cwe_confidence": 0.605,
+    "evidence": [
+      "ML classifier prediction",
+      "package",
+      "vulnerable",
+      "path",
+      "traversal",
+      "file-utils",
+      "version",
+      "1.3.0",
+      "arbitrary"
+    ],
+    "entities": {
+      "endpoint": null,
+      "parameter": null,
+      "package": "file-utils",
+      "version": "1.3.0",
+      "attack_type": "Path Traversal",
+      "file_path": null
+    },
+    "reachable": false,
+    "reachability_reason": "SCA package finding requires dependency reachability confirmation",
+    "duplicate_group_id": "VULN-GROUP-0007",
+    "duplicate_of": "SCA-002",
+    "similarity_to_duplicate": 1.0,
+    "priority_score": 0.565,
+    "risk_level": "medium",
+    "scoring_factors": {
+      "cvss_weight": 0.78,
+      "cwe_confidence": 0.605,
+      "source_weight": 0.72,
+      "reachability_weight": 0.42,
+      "exploit_weight": 0.65,
+      "business_weight": 0.65,
+      "exposure_weight": 0.55,
+      "correlation_weight": 0.75,
+      "duplicate_weight": 0.88
+    },
+    "triage_decision": "review_duplicate_group",
+    "reasoning_summary": "Mapped to CWE-22 (Path Traversal). Priority score is 0.56, categorized as medium. Reachability is not confirmed, so exploitation likelihood is reduced. This appears similar to existing finding SCA-002, so deduplication review is recommended. WAF proposal is blocked or not eligible under safety constraints.",
+    "recommended_fix": "Normalize and constrain file paths, use allowlists, and block traversal sequences.",
+    "waf_rule_allowed": false,
+    "proposed_waf_rule": null,
+    "human_approval_required": true,
+    "safety_notes": [
+      "Blocked WAF proposal: finding is not confirmed reachable."
+    ],
+    "agent_mode": "local_rules",
+    "memory_backend": "sqlite_vector_memory",
+    "approval_required_actions": [
+      "review_duplicate_grouping"
+    ]
+  }
+]

@@ -1,0 +1,1 @@
+{"finding_id": "string", "decision": "approved", "reviewer": "string", "notes": "string", "corrected_cwe": "string", "corrected_priority": "string", "waf_rule_approved": true, "remediation_approved": true}
