@@ -1,0 +1,36 @@
+{
+  "reportSchema": "1.1",
+  "scanInfo": {"engineVersion": "fixture"},
+  "dependencies": [
+    {
+      "fileName": "jinja2==2.10",
+      "filePath": "demo-vulnerable-app/requirements.txt",
+      "version": "2.10",
+      "vulnerabilities": [
+        {
+          "source": "NVD",
+          "name": "CVE-2019-10906",
+          "severity": "MEDIUM",
+          "cvssv3": {"baseScore": 6.1, "baseSeverity": "MEDIUM"},
+          "cwes": ["CWE-79"],
+          "description": "Older Jinja2 versions may allow sandbox escape or template-related cross-site scripting patterns in unsafe usage. This is a sample SCA finding for training."
+        }
+      ]
+    },
+    {
+      "fileName": "pyyaml==3.13",
+      "filePath": "demo-vulnerable-app/requirements.txt",
+      "version": "3.13",
+      "vulnerabilities": [
+        {
+          "source": "NVD",
+          "name": "CVE-2017-18342",
+          "severity": "HIGH",
+          "cvssv3": {"baseScore": 7.5, "baseSeverity": "HIGH"},
+          "cwes": ["CWE-502"],
+          "description": "PyYAML load may deserialize untrusted objects when unsafe loaders are used. This is a sample SCA finding."
+        }
+      ]
+    }
+  ]
+}

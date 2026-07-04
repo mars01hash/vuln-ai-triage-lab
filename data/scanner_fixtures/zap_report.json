@@ -1,0 +1,52 @@
+{
+  "@generated": "fixture",
+  "site": [
+    {
+      "@name": "http://localhost:5000",
+      "alerts": [
+        {
+          "pluginid": "40018",
+          "alert": "SQL Injection",
+          "riskdesc": "High (Medium)",
+          "risk": "High",
+          "confidence": "Medium",
+          "desc": "SQL error detected from parameter id on the /user endpoint.",
+          "solution": "Use parameterized queries and avoid string concatenation in SQL.",
+          "cweid": "89",
+          "evidence": "SQL syntax error near UNION SELECT",
+          "instances": [
+            {"uri": "http://localhost:5000/user?id=1%20UNION%20SELECT", "param": "id"}
+          ]
+        },
+        {
+          "pluginid": "40012",
+          "alert": "Cross Site Scripting (Reflected)",
+          "riskdesc": "Medium (High)",
+          "risk": "Medium",
+          "confidence": "High",
+          "desc": "Reflected script execution was observed in the q parameter.",
+          "solution": "Contextually encode output and sanitize untrusted HTML.",
+          "cweid": "79",
+          "evidence": "<script>alert(1)</script>",
+          "instances": [
+            {"uri": "http://localhost:5000/search?q=%3Cscript%3Ealert(1)%3C/script%3E", "param": "q"}
+          ]
+        },
+        {
+          "pluginid": "6",
+          "alert": "Path Traversal",
+          "riskdesc": "High (Medium)",
+          "risk": "High",
+          "confidence": "Medium",
+          "desc": "The file parameter can read arbitrary files using ../ traversal.",
+          "solution": "Normalize file paths and enforce an allowlisted directory.",
+          "cweid": "22",
+          "evidence": "../../etc/passwd",
+          "instances": [
+            {"uri": "http://localhost:5000/download?file=../../etc/passwd", "param": "file"}
+          ]
+        }
+      ]
+    }
+  ]
+}

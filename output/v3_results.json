@@ -31,9 +31,9 @@
     "reachable": true,
     "reachability_reason": "Reachability supplied by input signal",
     "duplicate_group_id": "VULN-GROUP-0001",
-    "duplicate_of": "SAST-001",
-    "similarity_to_duplicate": 1.0,
-    "priority_score": 0.716,
+    "duplicate_of": null,
+    "similarity_to_duplicate": null,
+    "priority_score": 0.814,
     "risk_level": "high",
     "scoring_factors": {
       "cvss_weight": 0.88,
@@ -44,10 +44,10 @@
       "business_weight": 1.0,
       "exposure_weight": 1.0,
       "correlation_weight": 0.75,
-      "duplicate_weight": 0.88
+      "duplicate_weight": 1.0
     },
-    "triage_decision": "review_duplicate_group",
-    "reasoning_summary": "Mapped to CWE-89 (SQL Injection). Priority score is 0.72, categorized as high. Reachability evidence indicates the vulnerable path is reachable. This appears similar to existing finding SAST-001, so deduplication review is recommended. WAF proposal is blocked or not eligible under safety constraints.",
+    "triage_decision": "urgent_fix_required",
+    "reasoning_summary": "Mapped to CWE-89 (SQL Injection). Priority score is 0.81, categorized as high. Reachability evidence indicates the vulnerable path is reachable. WAF proposal is blocked or not eligible under safety constraints.",
     "recommended_fix": "Use parameterized queries/prepared statements, validate input, and avoid string concatenation in SQL.",
     "waf_rule_allowed": false,
     "proposed_waf_rule": null,
@@ -58,8 +58,7 @@
     "agent_mode": "local_rules",
     "memory_backend": "sqlite_vector_memory",
     "approval_required_actions": [
-      "review_remediation_plan",
-      "review_duplicate_grouping"
+      "review_remediation_plan"
     ]
   },
   {
@@ -94,9 +93,9 @@
     "reachable": false,
     "reachability_reason": "Reachability supplied by input signal",
     "duplicate_group_id": "VULN-GROUP-0002",
-    "duplicate_of": "SAST-002",
-    "similarity_to_duplicate": 1.0,
-    "priority_score": 0.543,
+    "duplicate_of": null,
+    "similarity_to_duplicate": null,
+    "priority_score": 0.617,
     "risk_level": "medium",
     "scoring_factors": {
       "cvss_weight": 0.75,
@@ -107,10 +106,10 @@
       "business_weight": 0.85,
       "exposure_weight": 0.55,
       "correlation_weight": 0.75,
-      "duplicate_weight": 0.88
+      "duplicate_weight": 1.0
     },
-    "triage_decision": "review_duplicate_group",
-    "reasoning_summary": "Mapped to CWE-798 (Use of Hard-coded Credentials). Priority score is 0.54, categorized as medium. Reachability is not confirmed, so exploitation likelihood is reduced. This appears similar to existing finding SAST-002, so deduplication review is recommended. WAF proposal is blocked or not eligible under safety constraints.",
+    "triage_decision": "deprioritize_until_reachability_confirmed",
+    "reasoning_summary": "Mapped to CWE-798 (Use of Hard-coded Credentials). Priority score is 0.62, categorized as medium. Reachability is not confirmed, so exploitation likelihood is reduced. WAF proposal is blocked or not eligible under safety constraints.",
     "recommended_fix": "Remove secrets from source code, rotate exposed credentials, and use a secret manager.",
     "waf_rule_allowed": false,
     "proposed_waf_rule": null,
@@ -120,9 +119,7 @@
     ],
     "agent_mode": "local_rules",
     "memory_backend": "sqlite_vector_memory",
-    "approval_required_actions": [
-      "review_duplicate_grouping"
-    ]
+    "approval_required_actions": []
   },
   {
     "finding_id": "SAST-003",
@@ -156,9 +153,9 @@
     "reachable": true,
     "reachability_reason": "Reachability supplied by input signal",
     "duplicate_group_id": "VULN-GROUP-0003",
-    "duplicate_of": "SAST-003",
-    "similarity_to_duplicate": 1.0,
-    "priority_score": 0.577,
+    "duplicate_of": null,
+    "similarity_to_duplicate": null,
+    "priority_score": 0.656,
     "risk_level": "medium",
     "scoring_factors": {
       "cvss_weight": 0.61,
@@ -169,10 +166,10 @@
       "business_weight": 0.85,
       "exposure_weight": 1.0,
       "correlation_weight": 0.75,
-      "duplicate_weight": 0.88
+      "duplicate_weight": 1.0
     },
-    "triage_decision": "review_duplicate_group",
-    "reasoning_summary": "Mapped to CWE-79 (Cross-Site Scripting). Priority score is 0.58, categorized as medium. Reachability evidence indicates the vulnerable path is reachable. This appears similar to existing finding SAST-003, so deduplication review is recommended. WAF proposal is blocked or not eligible under safety constraints.",
+    "triage_decision": "standard_security_backlog",
+    "reasoning_summary": "Mapped to CWE-79 (Cross-Site Scripting). Priority score is 0.66, categorized as medium. Reachability evidence indicates the vulnerable path is reachable. WAF proposal is blocked or not eligible under safety constraints.",
     "recommended_fix": "Encode output by context, sanitize untrusted HTML, and use safe templating APIs.",
     "waf_rule_allowed": false,
     "proposed_waf_rule": null,
@@ -182,9 +179,7 @@
     ],
     "agent_mode": "local_rules",
     "memory_backend": "sqlite_vector_memory",
-    "approval_required_actions": [
-      "review_duplicate_grouping"
-    ]
+    "approval_required_actions": []
   },
   {
     "finding_id": "DAST-001",
@@ -218,10 +213,10 @@
     "reachable": true,
     "reachability_reason": "Reachability supplied by input signal",
     "duplicate_group_id": "VULN-GROUP-0004",
-    "duplicate_of": "DAST-001",
-    "similarity_to_duplicate": 1.0,
-    "priority_score": 0.75,
-    "risk_level": "high",
+    "duplicate_of": null,
+    "similarity_to_duplicate": null,
+    "priority_score": 0.853,
+    "risk_level": "critical",
     "scoring_factors": {
       "cvss_weight": 0.91,
       "cwe_confidence": 0.408,
@@ -231,10 +226,10 @@
       "business_weight": 1.0,
       "exposure_weight": 1.0,
       "correlation_weight": 1.0,
-      "duplicate_weight": 0.88
+      "duplicate_weight": 1.0
     },
-    "triage_decision": "review_duplicate_group",
-    "reasoning_summary": "Mapped to CWE-89 (SQL Injection). Priority score is 0.75, categorized as high. Reachability evidence indicates the vulnerable path is reachable. This appears similar to existing finding DAST-001, so deduplication review is recommended. A WAF virtual patch proposal can be reviewed by a human approver.",
+    "triage_decision": "urgent_fix_required",
+    "reasoning_summary": "Mapped to CWE-89 (SQL Injection). Priority score is 0.85, categorized as critical. Reachability evidence indicates the vulnerable path is reachable. A WAF virtual patch proposal can be reviewed by a human approver.",
     "recommended_fix": "Use parameterized queries/prepared statements, validate input, and avoid string concatenation in SQL.",
     "waf_rule_allowed": true,
     "proposed_waf_rule": "SecRule ARGS:id \"(?i:(union\\s+select|select\\s+.*from|or\\s+1=1))\" \"id:100001,phase:2,deny,status:403,msg:'Proposed SQLi virtual patch for /api/orders'\"",
@@ -246,8 +241,7 @@
     "memory_backend": "sqlite_vector_memory",
     "approval_required_actions": [
       "review_waf_virtual_patch",
-      "review_remediation_plan",
-      "review_duplicate_grouping"
+      "review_remediation_plan"
     ]
   },
   {
@@ -282,10 +276,10 @@
     "reachable": true,
     "reachability_reason": "DAST finding implies endpoint was dynamically reachable",
     "duplicate_group_id": "VULN-GROUP-0005",
-    "duplicate_of": "DAST-002",
-    "similarity_to_duplicate": 1.0,
-    "priority_score": 0.639,
-    "risk_level": "medium",
+    "duplicate_of": null,
+    "similarity_to_duplicate": null,
+    "priority_score": 0.726,
+    "risk_level": "high",
     "scoring_factors": {
       "cvss_weight": 0.61,
       "cwe_confidence": 0.35,
@@ -295,10 +289,10 @@
       "business_weight": 0.85,
       "exposure_weight": 1.0,
       "correlation_weight": 1.0,
-      "duplicate_weight": 0.88
+      "duplicate_weight": 1.0
     },
-    "triage_decision": "review_duplicate_group",
-    "reasoning_summary": "Mapped to CWE-79 (Cross-Site Scripting). Priority score is 0.64, categorized as medium. Reachability evidence indicates the vulnerable path is reachable. This appears similar to existing finding DAST-002, so deduplication review is recommended. WAF proposal is blocked or not eligible under safety constraints.",
+    "triage_decision": "urgent_fix_required",
+    "reasoning_summary": "Mapped to CWE-79 (Cross-Site Scripting). Priority score is 0.73, categorized as high. Reachability evidence indicates the vulnerable path is reachable. WAF proposal is blocked or not eligible under safety constraints.",
     "recommended_fix": "Encode output by context, sanitize untrusted HTML, and use safe templating APIs.",
     "waf_rule_allowed": false,
     "proposed_waf_rule": null,
@@ -309,7 +303,7 @@
     "agent_mode": "local_rules",
     "memory_backend": "sqlite_vector_memory",
     "approval_required_actions": [
-      "review_duplicate_grouping"
+      "review_remediation_plan"
     ]
   },
   {
@@ -344,10 +338,10 @@
     "reachable": false,
     "reachability_reason": "Reachability supplied by input signal",
     "duplicate_group_id": "VULN-GROUP-0006",
-    "duplicate_of": "SCA-001",
-    "similarity_to_duplicate": 1.0,
-    "priority_score": 0.646,
-    "risk_level": "medium",
+    "duplicate_of": null,
+    "similarity_to_duplicate": null,
+    "priority_score": 0.734,
+    "risk_level": "high",
     "scoring_factors": {
       "cvss_weight": 1.0,
       "cwe_confidence": 0.462,
@@ -357,10 +351,10 @@
       "business_weight": 0.85,
       "exposure_weight": 0.75,
       "correlation_weight": 0.75,
-      "duplicate_weight": 0.88
+      "duplicate_weight": 1.0
     },
-    "triage_decision": "review_duplicate_group",
-    "reasoning_summary": "Mapped to CWE-20 (Improper Input Validation). Priority score is 0.65, categorized as medium. Reachability is not confirmed, so exploitation likelihood is reduced. This appears similar to existing finding SCA-001, so deduplication review is recommended. WAF proposal is blocked or not eligible under safety constraints.",
+    "triage_decision": "deprioritize_until_reachability_confirmed",
+    "reasoning_summary": "Mapped to CWE-20 (Improper Input Validation). Priority score is 0.73, categorized as high. Reachability is not confirmed, so exploitation likelihood is reduced. WAF proposal is blocked or not eligible under safety constraints.",
     "recommended_fix": "Validate, normalize, and constrain all untrusted input at trust boundaries.",
     "waf_rule_allowed": false,
     "proposed_waf_rule": null,
@@ -371,7 +365,7 @@
     "agent_mode": "local_rules",
     "memory_backend": "sqlite_vector_memory",
     "approval_required_actions": [
-      "review_duplicate_grouping"
+      "review_remediation_plan"
     ]
   },
   {
@@ -406,9 +400,9 @@
     "reachable": false,
     "reachability_reason": "SCA package finding requires dependency reachability confirmation",
     "duplicate_group_id": "VULN-GROUP-0007",
-    "duplicate_of": "SCA-002",
-    "similarity_to_duplicate": 1.0,
-    "priority_score": 0.565,
+    "duplicate_of": null,
+    "similarity_to_duplicate": null,
+    "priority_score": 0.642,
     "risk_level": "medium",
     "scoring_factors": {
       "cvss_weight": 0.78,
@@ -419,10 +413,10 @@
       "business_weight": 0.65,
       "exposure_weight": 0.55,
       "correlation_weight": 0.75,
-      "duplicate_weight": 0.88
+      "duplicate_weight": 1.0
     },
-    "triage_decision": "review_duplicate_group",
-    "reasoning_summary": "Mapped to CWE-22 (Path Traversal). Priority score is 0.56, categorized as medium. Reachability is not confirmed, so exploitation likelihood is reduced. This appears similar to existing finding SCA-002, so deduplication review is recommended. WAF proposal is blocked or not eligible under safety constraints.",
+    "triage_decision": "deprioritize_until_reachability_confirmed",
+    "reasoning_summary": "Mapped to CWE-22 (Path Traversal). Priority score is 0.64, categorized as medium. Reachability is not confirmed, so exploitation likelihood is reduced. WAF proposal is blocked or not eligible under safety constraints.",
     "recommended_fix": "Normalize and constrain file paths, use allowlists, and block traversal sequences.",
     "waf_rule_allowed": false,
     "proposed_waf_rule": null,
@@ -432,8 +426,6 @@
     ],
     "agent_mode": "local_rules",
     "memory_backend": "sqlite_vector_memory",
-    "approval_required_actions": [
-      "review_duplicate_grouping"
-    ]
+    "approval_required_actions": []
   }
 ]

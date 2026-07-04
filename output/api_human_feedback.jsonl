@@ -1,1 +1,3 @@
 {"finding_id": "string", "decision": "approved", "reviewer": "string", "notes": "string", "corrected_cwe": "string", "corrected_priority": "string", "waf_rule_approved": true, "remediation_approved": true}
+{"finding_id": "string", "decision": "approved", "reviewer": "string", "notes": "string", "corrected_cwe": "string", "corrected_priority": "string", "waf_rule_approved": true, "remediation_approved": true}
+{"finding_id": "SEMGREP-001", "decision": "approved", "reviewer": "security_lead", "notes": "Verified and WAF patch confirmed.", "corrected_cwe": null, "corrected_priority": null, "waf_rule_approved": null, "remediation_approved": null}

@@ -1,0 +1,56 @@
+[
+  {
+    "finding_id": "SEMGREP-001",
+    "expected_cwe": "CWE-89",
+    "expected_min_rank": "high",
+    "expected_waf_allowed": false
+  },
+  {
+    "finding_id": "SEMGREP-002",
+    "expected_cwe": "CWE-79",
+    "expected_min_rank": "medium",
+    "expected_waf_allowed": false
+  },
+  {
+    "finding_id": "SEMGREP-003",
+    "expected_cwe": "CWE-798",
+    "expected_min_rank": "medium",
+    "expected_waf_allowed": false
+  },
+  {
+    "finding_id": "SEMGREP-004",
+    "expected_cwe": "CWE-22",
+    "expected_min_rank": "high",
+    "expected_waf_allowed": false
+  },
+  {
+    "finding_id": "ZAP-001",
+    "expected_cwe": "CWE-89",
+    "expected_min_rank": "high",
+    "expected_waf_allowed": true
+  },
+  {
+    "finding_id": "ZAP-002",
+    "expected_cwe": "CWE-79",
+    "expected_min_rank": "medium",
+    "expected_waf_allowed": true
+  },
+  {
+    "finding_id": "ZAP-003",
+    "expected_cwe": "CWE-22",
+    "expected_min_rank": "high",
+    "expected_waf_allowed": true
+  },
+  {
+    "finding_id": "DEPCHK-001",
+    "expected_cwe": "CWE-79",
+    "expected_min_rank": "medium",
+    "expected_waf_allowed": false
+  },
+  {
+    "finding_id": "DEPCHK-002",
+    "expected_cwe": "CWE-502",
+    "expected_min_rank": "medium",
+    "expected_waf_allowed": false
+  }
+]

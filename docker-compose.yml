@@ -7,3 +7,20 @@ services:
       - ./output:/app/output
     environment:
       - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+
+  vuln-ai-dashboard:
+    build: .
+    command: streamlit run app/dashboard/streamlit_app.py --server.address=0.0.0.0 --server.port=8501
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./output:/app/output
+    environment:
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+    depends_on:
+      - vuln-ai-triage-api
+
+  demo-vulnerable-app:
+    build: ./demo-vulnerable-app
+    ports:
+      - "5000:5000"

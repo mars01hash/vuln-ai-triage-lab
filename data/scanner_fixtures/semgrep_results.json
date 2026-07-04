@@ -1,0 +1,67 @@
+{
+  "version": "1.0.0",
+  "results": [
+    {
+      "check_id": "python.flask.security.sql-injection.raw-query",
+      "path": "demo-vulnerable-app/app.py",
+      "start": {"line": 24, "col": 12},
+      "end": {"line": 24, "col": 60},
+      "extra": {
+        "message": "Unsanitized input reaches raw SQL query through the id parameter.",
+        "severity": "ERROR",
+        "metadata": {
+          "cwe": "CWE-89",
+          "endpoint": "/user",
+          "parameter": "id",
+          "owasp": "A03:2021-Injection"
+        }
+      }
+    },
+    {
+      "check_id": "python.flask.security.reflected-xss",
+      "path": "demo-vulnerable-app/app.py",
+      "start": {"line": 31, "col": 8},
+      "end": {"line": 31, "col": 45},
+      "extra": {
+        "message": "User controlled q parameter is returned as HTML and may cause reflected script execution.",
+        "severity": "WARNING",
+        "metadata": {
+          "cwe": "CWE-79",
+          "endpoint": "/search",
+          "parameter": "q",
+          "owasp": "A03:2021-Injection"
+        }
+      }
+    },
+    {
+      "check_id": "python.lang.security.audit.hardcoded-secret",
+      "path": "demo-vulnerable-app/app.py",
+      "start": {"line": 10, "col": 1},
+      "end": {"line": 10, "col": 35},
+      "extra": {
+        "message": "Possible hardcoded credential or API key in source code.",
+        "severity": "WARNING",
+        "metadata": {
+          "cwe": "CWE-798",
+          "owasp": "A07:2021-Identification and Authentication Failures"
+        }
+      }
+    },
+    {
+      "check_id": "python.flask.security.path-traversal",
+      "path": "demo-vulnerable-app/app.py",
+      "start": {"line": 38, "col": 12},
+      "end": {"line": 38, "col": 54},
+      "extra": {
+        "message": "File path parameter is used to read arbitrary file and may allow path traversal ../ sequences.",
+        "severity": "ERROR",
+        "metadata": {
+          "cwe": "CWE-22",
+          "endpoint": "/download",
+          "parameter": "file"
+        }
+      }
+    }
+  ],
+  "errors": []
+}

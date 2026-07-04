@@ -90,7 +90,7 @@
   - Reason: Mapped to CWE-20 (Improper Input Validation). Priority score is 0.73, categorized as high. Reachability is not confirmed, so exploitation likelihood is reduced. WAF proposal is blocked or not eligible under safety constraints.
   - Safety: Blocked WAF proposal: CWE-20 is not eligible for generic WAF virtual patching in this MVP.
 
-## Notes for Interview Discussion
+## Notes for Discussion
 
 - WAF rule eligibility is enforced by deterministic code, not by an LLM prompt.
 - Priority scoring combines CVSS, classifier confidence, reachability, exploit availability, business criticality, and asset exposure.

@@ -1,12 +1,16 @@
 [project]
 name = "vuln-ai-triage-lab"
-version = "0.3.0"
-description = "v3 AppSec AI triage lab with ML, vector memory, optional LLM, feedback, and WAF policy gates"
+version = "0.4.0"
+description = "v4 AppSec AI triage lab with scanner adapters, demo vulnerable app, dashboard, benchmark, ML, vector memory, optional LLM, feedback, and WAF policy gates"
 requires-python = ">=3.10"
 dependencies = [
     "fastapi>=0.110.0",
     "uvicorn[standard]>=0.27.0",
     "pydantic>=2.0.0",
+    "scikit-learn>=1.3.0",
+    "joblib>=1.3.0",
+    "pandas>=2.0.0",
+    "streamlit>=1.32.0",
 ]
 
 [tool.pytest.ini_options]
