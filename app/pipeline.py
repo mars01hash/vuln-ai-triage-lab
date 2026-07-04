@@ -1,6 +1,9 @@
 from __future__ import annotations
 
+from pathlib import Path
+
 from app.agents.triage_agent import local_triage_agent
+from app.ml.cwe_ml_classifier import MLCWEClassifier
 from app.normalization.cwe_classifier import classify_cwe
 from app.normalization.entity_extractor import extract_entities
 from app.reachability.reachability_gate import evaluate_reachability
@@ -11,11 +14,26 @@ from app.waf.waf_gate import build_waf_rule_proposal
 
 
 class TriagePipeline:
-    def __init__(self, memory: VulnerabilityMemory | None = None):
+    def __init__(
+        self,
+        memory: VulnerabilityMemory | None = None,
+        use_ml_classifier: bool = False,
+        model_path: str | Path = "models/cwe_tfidf_logreg.joblib",
+    ):
         self.memory = memory or VulnerabilityMemory()
+        self.use_ml_classifier = use_ml_classifier
+        self.ml_classifier: MLCWEClassifier | None = None
+        if use_ml_classifier:
+            self.ml_classifier = MLCWEClassifier.load(model_path)
+
+    def _classify(self, finding: VulnerabilityFinding) -> tuple[str, str, float, list[str]]:
+        if self.ml_classifier:
+            prediction = self.ml_classifier.predict_finding(finding)
+            return prediction.cwe, prediction.cwe_name, prediction.confidence, prediction.evidence
+        return classify_cwe(finding)
 
     def process_one(self, finding: VulnerabilityFinding) -> NormalizedFinding:
-        canonical_cwe, cwe_name, cwe_confidence, evidence = classify_cwe(finding)
+        canonical_cwe, cwe_name, cwe_confidence, evidence = self._classify(finding)
         entities = extract_entities(finding, canonical_cwe)
         reachable, reachability_reason = evaluate_reachability(finding)
         duplicate_group_id, duplicate_of, similarity = self.memory.find_or_add(finding, canonical_cwe)

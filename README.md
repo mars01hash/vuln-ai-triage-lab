@@ -1,108 +1,168 @@
-# Vuln AI Triage Lab
+# Vulnerability AI Triage Lab v2
 
-A runnable MVP for an AI-assisted AppSec vulnerability intelligence pipeline.
+A runnable AppSec AI MVP for **CWE normalization**, **entity extraction**, **deduplication**, **Bayesian-style priority scoring**, **reachability gating**, **LLM-style triage**, and **WAF proposal safety gating**.
 
-It ingests SAST/DAST/SCA-style findings, normalizes them into canonical CWE classes, extracts entities, deduplicates semantically similar findings, calculates a priority score, and produces triage/fix/WAF proposal outputs with hard safety gates.
-
-> This project is intentionally runnable without paid APIs. The first version uses local rule-based NLP + hash embeddings. You can later replace modules with Hugging Face models, Chroma/Qdrant, OpenAI/Claude/Gemini, CodeQL, etc.
+Version 2 adds a trainable **scikit-learn CWE classifier**, persistent memory, Markdown batch reports, and ML evaluation mode.
 
 ---
 
-## Features
+## 1. What this project demonstrates
 
-- Canonical vulnerability schema using Pydantic
-- Sample SAST, DAST, and SCA findings
-- CWE normalization for common weakness classes
-- Regex/rule-based entity extraction
-- Lightweight embedding-based deduplication using pure Python hashing
-- Priority scoring inspired by Bayesian/confidence-weighted risk scoring
-- Reachability gate
-- WAF rule proposal gate with strict rule: **SAST-only findings do not generate WAF rules**
-- Local LLM-style triage agent using deterministic rules
-- CLI demo
-- FastAPI API demo
-- Evaluation script
-- Pytest smoke tests
-
----
-
-## Project Structure
+This project simulates the architecture needed for an AI-powered vulnerability intelligence system:
 
 ```text
-vuln-ai-triage-lab/
-├── app/
-│   ├── main.py                     # FastAPI app
-│   ├── cli.py                      # CLI runner
-│   ├── pipeline.py                 # End-to-end pipeline
-│   ├── schemas.py                  # Pydantic models
-│   ├── ingestion/                  # JSON adapters
-│   ├── normalization/              # CWE classifier + entity extraction
-│   ├── retrieval/                  # Hash embeddings + cosine similarity
-│   ├── scoring/                    # Priority scoring
-│   ├── reachability/               # Reachability gate
-│   ├── agents/                     # Triage/fix agent
-│   ├── waf/                        # WAF proposal gate
-│   ├── storage/                    # In-memory vulnerability memory
-│   └── evaluation/                 # Evaluation helpers
-├── data/
-│   ├── sample_sast_findings.json
-│   ├── sample_dast_findings.json
-│   ├── sample_sca_findings.json
-│   └── sample_findings_all.json
-├── reports/
-├── tests/
-├── requirements.txt
-├── Dockerfile
-└── pyproject.toml
+SAST/DAST/SCA Findings
+        ↓
+Canonical Schema
+        ↓
+CWE Normalization
+        ↓
+Entity Extraction
+        ↓
+Duplicate/Similarity Memory
+        ↓
+Reachability Gate
+        ↓
+Bayesian-style Priority Score
+        ↓
+Triage + Fix Recommendation
+        ↓
+WAF Proposal Gate + Human Approval
 ```
+
+The key design principle is:
+
+> LLM/agent output should assist and explain. Safety-sensitive decisions must be enforced by deterministic code.
 
 ---
 
-## Quick Start
-
-### 1. Create virtual environment
+## 2. Setup
 
 ```bash
+cd vuln-ai-triage-lab
 python -m venv .venv
 ```
 
-Windows:
+### Windows
 
 ```bash
 .venv\Scripts\activate
 ```
 
-Linux/macOS:
+### Linux/macOS
 
 ```bash
 source .venv/bin/activate
 ```
 
-### 2. Install dependencies
+Install dependencies:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Run CLI demo
+---
+
+## 3. Run the rule-based MVP
 
 ```bash
 python -m app.cli --input data/sample_findings_all.json --pretty
 ```
 
-You should get normalized vulnerability results like:
+Save output:
 
-```json
-{
-  "finding_id": "SAST-001",
-  "canonical_cwe": "CWE-89",
-  "risk_level": "critical",
-  "waf_rule_allowed": false,
-  "human_approval_required": true
-}
+```bash
+python -m app.cli \
+  --input data/sample_findings_all.json \
+  --output output/results_rules.json \
+  --pretty
 ```
 
-### 4. Run FastAPI server
+---
+
+## 4. Train the ML CWE classifier
+
+```bash
+python -m app.ml.train_cwe_classifier \
+  --input data/cwe_training_findings.jsonl \
+  --output models/cwe_tfidf_logreg.joblib \
+  --metrics output/cwe_training_metrics.json
+```
+
+Or use the helper script:
+
+### Windows
+
+```bash
+scripts\train_model.bat
+```
+
+### Linux/macOS
+
+```bash
+bash scripts/train_model.sh
+```
+
+---
+
+## 5. Run with the trained ML classifier
+
+```bash
+python -m app.cli \
+  --input data/sample_findings_all.json \
+  --use-ml \
+  --pretty
+```
+
+Save output + report:
+
+```bash
+python -m app.cli \
+  --input data/sample_findings_all.json \
+  --use-ml \
+  --output output/results_ml.json \
+  --report output/batch_report.md \
+  --pretty
+```
+
+---
+
+## 6. Use persistent vulnerability memory
+
+This simulates organizational vulnerability memory across runs.
+
+```bash
+python -m app.cli \
+  --input data/sample_findings_all.json \
+  --memory-file output/memory.json \
+  --output output/run_1.json \
+  --pretty
+```
+
+Run the same command again and you should see more duplicate/similar findings because previous records were stored.
+
+---
+
+## 7. Run evaluation
+
+Rule-based evaluation:
+
+```bash
+python -m app.evaluation.evaluate --input data/eval_labeled_findings.json
+```
+
+ML evaluation:
+
+```bash
+python -m app.evaluation.evaluate \
+  --input data/eval_labeled_findings.json \
+  --use-ml \
+  --model-path models/cwe_tfidf_logreg.joblib
+```
+
+---
+
+## 8. Run FastAPI server
 
 ```bash
 uvicorn app.main:app --reload
@@ -114,17 +174,25 @@ Open:
 http://127.0.0.1:8000/docs
 ```
 
-### 5. Test API with curl
+Main endpoints:
 
-```bash
-curl -X POST "http://127.0.0.1:8000/triage" ^
-  -H "Content-Type: application/json" ^
-  -d @data/sample_findings_all.json
+| Endpoint | Purpose |
+|---|---|
+| `POST /triage` | Triage one finding |
+| `POST /triage/batch` | Triage multiple findings |
+| `GET /memory/summary` | Show API memory stats |
+
+Use ML mode by adding query parameter:
+
+```text
+POST /triage?use_ml=true
 ```
 
-For Linux/macOS, replace `^` with `\`.
+Make sure you train the model first.
 
-### 6. Run tests
+---
+
+## 9. Run tests
 
 ```bash
 pytest
@@ -132,142 +200,37 @@ pytest
 
 ---
 
-## API Endpoints
+## 10. Interview explanation
 
-### Health Check
+You can explain the project like this:
 
-```http
-GET /health
-```
-
-### Triage Findings
-
-```http
-POST /triage
-```
-
-Body:
-
-```json
-[
-  {
-    "finding_id": "SAST-001",
-    "source_type": "SAST",
-    "tool_name": "Semgrep",
-    "title": "Possible SQL Injection",
-    "description": "User input from parameter id reaches raw SQL query",
-    "cvss": 8.8,
-    "asset": "payment-api",
-    "endpoint": "/api/orders",
-    "parameter": "id",
-    "reachable": true,
-    "business_criticality": "high",
-    "asset_exposure": "internet",
-    "exploit_available": true
-  }
-]
-```
+> I built a modular vulnerability intelligence pipeline. The ingestion layer normalizes scanner findings, the CWE module maps heterogeneous findings into a canonical weakness taxonomy, the memory module detects duplicate/similar findings, reachability reduces SAST noise, scoring produces an auditable priority score, and the agent layer generates triage/fix recommendations. WAF rule eligibility is enforced outside the LLM through deterministic system-level safety gates.
 
 ---
 
-## Important Safety Rules Implemented
+## 11. Current MVP vs production upgrade
 
-### 1. SAST-only cannot generate WAF rule
-
-```python
-if finding.source_type == "SAST" and not finding.dast_confirmed:
-    waf_rule_allowed = False
-```
-
-### 2. Human approval required for WAF proposal
-
-Even when WAF rule is allowed, output marks:
-
-```json
-"human_approval_required": true
-```
-
-### 3. LLM-style agent is advisory only
-
-The agent produces triage text and fix advice, but hard constraints are enforced in code.
+| Area | Current v2 | Production upgrade |
+|---|---|---|
+| CWE classifier | TF-IDF + Logistic Regression | Fine-tuned Transformer / CodeBERT |
+| Embeddings | Hash-based vectors | Sentence-Transformers / BGE / OpenAI embeddings |
+| Vector DB | JSON/in-memory | Qdrant / Chroma / FAISS / pgvector |
+| Agent | Local deterministic triage | LangGraph + structured LLM output |
+| Reachability | Simple/mock gate | CodeQL / Joern / real callgraph/data-flow |
+| WAF | Proposal only | ModSecurity/Cloudflare/AWS WAF approval workflow |
+| Evaluation | Basic accuracy | Calibration, rank metrics, drift, approval feedback |
 
 ---
 
-## How to Extend This MVP
+## 12. Files to inspect first
 
-### Replace local CWE classifier
-
-Current:
-
-```text
-Rule-based keyword classifier
-```
-
-Upgrade:
-
-```text
-TF-IDF + Logistic Regression
-Hugging Face Transformer classifier
-CodeBERT for code-aware findings
-```
-
-### Replace local embeddings
-
-Current:
-
-```text
-Pure Python hash embedding
-```
-
-Upgrade:
-
-```text
-sentence-transformers/all-MiniLM-L6-v2
-BAAI/bge-small-en-v1.5
-OpenAI embeddings
-```
-
-### Replace in-memory vector memory
-
-Current:
-
-```text
-In-memory Python list
-```
-
-Upgrade:
-
-```text
-ChromaDB
-Qdrant
-FAISS
-PostgreSQL pgvector
-```
-
-### Replace local triage agent
-
-Current:
-
-```text
-Rule-based LLM-style triage
-```
-
-Upgrade:
-
-```text
-LangGraph + GPT-5.5 / GPT-5.4 mini
-Structured Outputs + Pydantic validation
-MCP tools for repo, ticketing, scanner, and WAF approval workflow
-```
-
----
-
-## Interview Talking Point
-
-> I built a vulnerability intelligence prototype that normalizes heterogeneous SAST, DAST, and SCA findings into canonical CWE labels, deduplicates findings through embedding similarity, applies reachability and business context, computes an explainable priority score, and produces LLM-style triage/fix/WAF proposal outputs with code-enforced human approval gates.
-
----
-
-## Disclaimer
-
-This is a portfolio/training MVP, not a production security tool. Do not use the WAF proposals directly in production without expert review and controlled testing.
+| File | Why important |
+|---|---|
+| `app/pipeline.py` | Main orchestration flow |
+| `app/schemas.py` | Canonical vulnerability schema |
+| `app/ml/train_cwe_classifier.py` | Trainable CWE classifier |
+| `app/ml/cwe_ml_classifier.py` | ML prediction wrapper |
+| `app/scoring/bayesian_score.py` | Priority scoring logic |
+| `app/waf/waf_gate.py` | Safety gate for WAF proposals |
+| `app/reporting/report_writer.py` | Batch Markdown report |
+| `reports/next_stage_design.md` | Design reasoning for v2 |

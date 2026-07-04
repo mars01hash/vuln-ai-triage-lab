@@ -1,6 +1,8 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
+import json
+from dataclasses import asdict, dataclass
+from pathlib import Path
 from typing import Optional
 
 from app.retrieval.hash_embeddings import HashEmbedding, cosine_similarity
@@ -19,15 +21,35 @@ class MemoryRecord:
 
 
 class VulnerabilityMemory:
-    """In-memory vector-like vulnerability memory for MVP.
+    """Vector-like vulnerability memory for MVP.
 
+    It starts in-memory, but can be backed by a JSON file using memory_path.
     Replace with Chroma/Qdrant/FAISS/pgvector in a production-like version.
     """
 
-    def __init__(self, similarity_threshold: float = 0.82):
+    def __init__(self, similarity_threshold: float = 0.82, memory_path: str | Path | None = None):
         self.records: list[MemoryRecord] = []
         self.embedder = HashEmbedding()
         self.similarity_threshold = similarity_threshold
+        self.memory_path = Path(memory_path) if memory_path else None
+        if self.memory_path and self.memory_path.exists():
+            self.load()
+
+    def load(self) -> None:
+        if not self.memory_path or not self.memory_path.exists():
+            return
+        payload = json.loads(self.memory_path.read_text(encoding="utf-8"))
+        self.records = [MemoryRecord(**row) for row in payload.get("records", [])]
+
+    def save(self) -> None:
+        if not self.memory_path:
+            return
+        self.memory_path.parent.mkdir(parents=True, exist_ok=True)
+        payload = {
+            "similarity_threshold": self.similarity_threshold,
+            "records": [asdict(record) for record in self.records],
+        }
+        self.memory_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
 
     def _text_for_embedding(self, finding: VulnerabilityFinding, canonical_cwe: str) -> str:
         return " ".join([
@@ -46,7 +68,6 @@ class VulnerabilityMemory:
         best: MemoryRecord | None = None
         best_score = 0.0
         for record in self.records:
-            # Strongly prefer same CWE and same asset, but allow close text matches.
             score = cosine_similarity(embedding, record.embedding)
             if canonical_cwe == record.canonical_cwe:
                 score += 0.05
@@ -77,5 +98,18 @@ class VulnerabilityMemory:
             text=text,
             embedding=embedding,
         ))
-
+        self.save()
         return group_id, duplicate_of, similarity
+
+    def summary(self) -> dict[str, int]:
+        by_cwe: dict[str, int] = {}
+        by_asset: dict[str, int] = {}
+        for record in self.records:
+            by_cwe[record.canonical_cwe] = by_cwe.get(record.canonical_cwe, 0) + 1
+            by_asset[record.asset] = by_asset.get(record.asset, 0) + 1
+        return {
+            "total_records": len(self.records),
+            "unique_groups": len({record.group_id for record in self.records}),
+            "unique_cwes": len(by_cwe),
+            "unique_assets": len(by_asset),
+        }
