@@ -1,5 +1,5 @@
 {
-  "model_path": "models/cwe_tfidf_logreg.joblib",
+  "model_path": "models\\cwe_tfidf_logreg.joblib",
   "accuracy": 1.0,
   "macro_f1": 1.0,
   "weighted_f1": 1.0,
