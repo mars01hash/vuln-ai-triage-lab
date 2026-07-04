@@ -1,0 +1,48 @@
+[
+  {
+    "finding_id": "SAST-001",
+    "source_type": "SAST",
+    "tool_name": "Semgrep",
+    "title": "Possible SQL Injection",
+    "description": "Unsanitized input from parameter id reaches raw SQL query in app/routes/orders.py",
+    "cvss": 8.8,
+    "asset": "payment-api",
+    "endpoint": "/api/orders",
+    "parameter": "id",
+    "file_path": "app/routes/orders.py",
+    "reachable": true,
+    "business_criticality": "critical",
+    "asset_exposure": "internet",
+    "exploit_available": true
+  },
+  {
+    "finding_id": "SAST-002",
+    "source_type": "SAST",
+    "tool_name": "Semgrep",
+    "title": "Hardcoded API key found",
+    "description": "Secret key token in code inside settings.py",
+    "cvss": 7.5,
+    "asset": "billing-worker",
+    "file_path": "settings.py",
+    "reachable": false,
+    "business_criticality": "high",
+    "asset_exposure": "internal",
+    "exploit_available": false
+  },
+  {
+    "finding_id": "SAST-003",
+    "source_type": "SAST",
+    "tool_name": "Semgrep",
+    "title": "Reflected XSS sink",
+    "description": "User controlled value is written through innerHTML in web/src/Search.tsx",
+    "cvss": 6.1,
+    "asset": "customer-portal",
+    "endpoint": "/search",
+    "parameter": "q",
+    "file_path": "web/src/Search.tsx",
+    "reachable": true,
+    "business_criticality": "high",
+    "asset_exposure": "internet",
+    "exploit_available": false
+  }
+]

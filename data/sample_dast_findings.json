@@ -1,0 +1,33 @@
+[
+  {
+    "finding_id": "DAST-001",
+    "source_type": "DAST",
+    "tool_name": "OWASP ZAP",
+    "title": "SQL Injection",
+    "description": "SQL error detected from parameter id on /api/orders using payload ' OR 1=1 --",
+    "cvss": 9.1,
+    "asset": "payment-api",
+    "endpoint": "/api/orders",
+    "parameter": "id",
+    "reachable": true,
+    "business_criticality": "critical",
+    "asset_exposure": "internet",
+    "exploit_available": true,
+    "dast_confirmed": true
+  },
+  {
+    "finding_id": "DAST-002",
+    "source_type": "DAST",
+    "tool_name": "OWASP ZAP",
+    "title": "Reflected Cross-Site Scripting",
+    "description": "Reflected script execution at /search?q=<script>alert(1)</script>",
+    "cvss": 6.1,
+    "asset": "customer-portal",
+    "endpoint": "/search",
+    "parameter": "q",
+    "business_criticality": "high",
+    "asset_exposure": "internet",
+    "exploit_available": false,
+    "dast_confirmed": true
+  }
+]

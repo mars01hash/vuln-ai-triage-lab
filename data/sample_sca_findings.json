@@ -1,0 +1,32 @@
+[
+  {
+    "finding_id": "SCA-001",
+    "source_type": "SCA",
+    "tool_name": "OWASP Dependency-Check",
+    "title": "Vulnerable dependency log4j-core",
+    "description": "Dependency package log4j-core version 2.14.1 is affected by remote code execution and unsafe lookup behavior",
+    "cvss": 10.0,
+    "asset": "reporting-service",
+    "package": "log4j-core",
+    "version": "2.14.1",
+    "reachable": false,
+    "business_criticality": "high",
+    "asset_exposure": "partner",
+    "exploit_available": true
+  },
+  {
+    "finding_id": "SCA-002",
+    "source_type": "SCA",
+    "tool_name": "OWASP Dependency-Check",
+    "title": "Package vulnerable to path traversal",
+    "description": "Package file-utils version 1.3.0 has arbitrary file read through path traversal ../ sequence",
+    "cvss": 7.8,
+    "asset": "document-service",
+    "package": "file-utils",
+    "version": "1.3.0",
+    "reachable": null,
+    "business_criticality": "medium",
+    "asset_exposure": "internal",
+    "exploit_available": false
+  }
+]
