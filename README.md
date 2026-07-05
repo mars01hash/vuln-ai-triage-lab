@@ -23,6 +23,23 @@ v5 keeps all v4 features: scanner adapters, vulnerable demo app, Streamlit dashb
 
 ---
 
+## Dashboard Preview
+
+The interactive Streamlit dashboard is designed as a real SecOps hacking console terminal, featuring custom neon-styled telemetry plots and a military-cockpit style vulnerability debugger.
+
+![Triage Dashboard Console GIF](screenshots/VULN_AI_TRIAGE__TERMINAL_V5.gif)
+
+### Core Operational Cockpit Views
+
+| Module Screen | Preview | Description |
+|---|---|---|
+| **System Analytics** | ![System Analytics](screenshots/SYS_ANALYTICS.png) | Real-time threat telemetry data dump, risk distribution histogram, CWE categories count, and code reachability statistics. |
+| **Vulnerability Explorer** | ![Vulnerability Explorer](screenshots/VULNERABILITY_EXPLORER.png) | Telemetry database printout table, detailed reasoning logs, remediation playbook, WAF rules generator, and metadata dump. |
+| **Model Calibration Diagnostics** | ![Model Calibration](screenshots/CALIBRATION_DIAGNOSTICS.png) | Model reliability curve plotting confidence vs accuracy against a perfect calibration reference, alongside calibration stats. |
+| **Feedback Loop Integration** | ![Feedback Integration](screenshots/FEEDBACK_INTEGRATION.png) | Human corrective actions submission form and reviews telemetry log. |
+
+---
+
 ## Architecture
 
 ```text
