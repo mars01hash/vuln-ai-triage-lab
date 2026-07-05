@@ -1,4 +1,4 @@
-# Vulnerability AI Triage Lab v5 🔐🤖
+# Vulnerability AI Triage Lab v5.0
 
 A runnable AppSec AI portfolio project that ingests scanner findings, normalizes them to CWE, deduplicates similar issues with vector-style memory, scores priority with explainable evidence, generates triage/fix recommendations, and enforces WAF/human-approval safety gates.
 

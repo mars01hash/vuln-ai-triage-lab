@@ -1,0 +1,915 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Runnable AppSec AI Triage Pipeline with calibrated scoring and vector memory">
+      
+      
+      
+        <link rel="canonical" href="https://muntasir.github.io/vuln-ai-triage-lab-v5/doc_v5_explanation/">
+      
+      
+        <link rel="prev" href="..">
+      
+      
+        <link rel="next" href="../modules/threat_intel/">
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.39">
+    
+    
+      
+        <title>Architecture Design - Vulnerability AI Triage Lab v5</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.8c3ca2c6.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="green">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#vuln-ai-triage-lab-v5-" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="Vulnerability AI Triage Lab v5" class="md-header__button md-logo" aria-label="Vulnerability AI Triage Lab v5" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Vulnerability AI Triage Lab v5
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Architecture Design
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="teal" data-md-color-accent="green"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="teal" data-md-color-accent="green"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/muntasir/vuln-ai-triage-lab-v5" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+    
+  
+  Architecture Design
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../modules/threat_intel/" class="md-tabs__link">
+          
+  
+  Modules
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Vulnerability AI Triage Lab v5" class="md-nav__button md-logo" aria-label="Vulnerability AI Triage Lab v5" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Vulnerability AI Triage Lab v5
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/muntasir/vuln-ai-triage-lab-v5" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.6.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    Architecture Design
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    Architecture Design
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#system-architecture-data-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      ১. ডাটা ফ্লো (System Architecture &amp; Data Flow)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      ২. প্রতিটি নতুন ও পরিবর্তিত কম্পোনেন্টের বিস্তারিত কোড ব্যাখ্যা
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="২. প্রতিটি নতুন ও পরিবর্তিত কম্পোনেন্টের বিস্তারিত কোড ব্যাখ্যা">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#threat-intelligence-enrichment" class="md-nav__link">
+    <span class="md-ellipsis">
+      ক. থ্রেট ইনটেলিজেন্স এনরিচমেন্ট (Threat Intelligence Enrichment)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-callgraph-reachability-gate" class="md-nav__link">
+    <span class="md-ellipsis">
+      খ. কলগ্রাফ-ভিত্তিক রিচিবিলিটি গেট (Callgraph Reachability Gate)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#retraining-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      গ. হিউম্যান ফিডব্যাক রিট্রেনিং লুপ (Retraining Loop)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compliance-audit-logger" class="md-nav__link">
+    <span class="md-ellipsis">
+      ঘ. কমপ্লায়েন্স অডিট লগার (Compliance Audit Logger)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model-context-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      ঙ. এমসিপি টুলস ইন্টারফেস (Model Context Protocol)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cwe-calibration-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      ৩. মডেল ক্যালিব্রেশন ও বিশ্বস্ততা মূল্যায়ন (CWE Calibration Metrics)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="৩. মডেল ক্যালিব্রেশন ও বিশ্বস্ততা মূল্যায়ন (CWE Calibration Metrics)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      প্রধান ৩টি ক্যালিব্রেশন মেথডোলজি:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#strict-safety-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      ৪. প্রজেক্টের গুরুত্বপূর্ণ সেফটি রুলস (Strict Safety Rules)
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Modules
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Modules
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modules/threat_intel/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Threat Intelligence
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modules/reachability/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Reachability Analysis
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modules/mcp/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Model Context Protocol (MCP)
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../modules/audit/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Audit Logging
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#system-architecture-data-flow" class="md-nav__link">
+    <span class="md-ellipsis">
+      ১. ডাটা ফ্লো (System Architecture &amp; Data Flow)
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      ২. প্রতিটি নতুন ও পরিবর্তিত কম্পোনেন্টের বিস্তারিত কোড ব্যাখ্যা
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="২. প্রতিটি নতুন ও পরিবর্তিত কম্পোনেন্টের বিস্তারিত কোড ব্যাখ্যা">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#threat-intelligence-enrichment" class="md-nav__link">
+    <span class="md-ellipsis">
+      ক. থ্রেট ইনটেলিজেন্স এনরিচমেন্ট (Threat Intelligence Enrichment)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-callgraph-reachability-gate" class="md-nav__link">
+    <span class="md-ellipsis">
+      খ. কলগ্রাফ-ভিত্তিক রিচিবিলিটি গেট (Callgraph Reachability Gate)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#retraining-loop" class="md-nav__link">
+    <span class="md-ellipsis">
+      গ. হিউম্যান ফিডব্যাক রিট্রেনিং লুপ (Retraining Loop)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#compliance-audit-logger" class="md-nav__link">
+    <span class="md-ellipsis">
+      ঘ. কমপ্লায়েন্স অডিট লগার (Compliance Audit Logger)
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#model-context-protocol" class="md-nav__link">
+    <span class="md-ellipsis">
+      ঙ. এমসিপি টুলস ইন্টারফেস (Model Context Protocol)
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cwe-calibration-metrics" class="md-nav__link">
+    <span class="md-ellipsis">
+      ৩. মডেল ক্যালিব্রেশন ও বিশ্বস্ততা মূল্যায়ন (CWE Calibration Metrics)
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="৩. মডেল ক্যালিব্রেশন ও বিশ্বস্ততা মূল্যায়ন (CWE Calibration Metrics)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      প্রধান ৩টি ক্যালিব্রেশন মেথডোলজি:
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#strict-safety-rules" class="md-nav__link">
+    <span class="md-ellipsis">
+      ৪. প্রজেক্টের গুরুত্বপূর্ণ সেফটি রুলস (Strict Safety Rules)
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="vuln-ai-triage-lab-v5-">Vuln AI Triage Lab v5 - প্রজেক্ট পরিচিতি ও কার্যপ্রণালী</h1>
+<p>এই প্রজেক্টটি একটি <strong>AI-assisted AppSec vulnerability intelligence pipeline</strong> বা স্বয়ংক্রিয় নিরাপত্তা ত্রুটি সনাক্তকরণ ও ট্রিয়েজ পাইপলাইন। এটি বিভিন্ন সিকিউরিটি টুলস (যেমন: SAST, DAST, SCA) থেকে প্রাপ্ত র ফিন্ডিংগুলোকে (raw findings) গ্রহণ করে সেগুলোকে একটি নির্দিষ্ট স্ট্যান্ডার্ডে রূপান্তর করে, ডুপ্লিকেট সনাক্ত করে, ত্রুটির গুরুত্ব অনুযায়ী স্কোরিং করে এবং ভার্চুয়াল প্যাচ বা WAF (Web Application Firewall) রুল প্রোপোজাল তৈরি করে।</p>
+<p>সংস্করণ ৫ (v5) এ আগের ভেক্টর মেমরি ও স্ক্যানার অ্যাডাপ্টারের ওপরে একটি <strong>মডেল ক্যালিব্রেশন মডিউল (Multiclass Brier score, Expected Calibration Error)</strong>, <strong>থ্রেট ইনটেলিজেন্স এনরিচমেন্ট লেয়ার (exploit probability/CISA KEV)</strong>, <strong>কলগ্রাফ-ভিত্তিক স্ট্যাটিক রিচিবিলিটি গেট (Callgraph route match)</strong>, <strong>ফিডব্যাক রিট্রেনিং লুপ (augmented feedback to training)</strong>, <strong>কমপ্লায়েন্স অডিট লগার (JSONL logging)</strong> এবং <strong>MCP (Model Context Protocol) টুলস ইন্টারফেস</strong> যুক্ত করা হয়েছে।</p>
+<p>নিচে প্রতিটি কম্পোনেন্ট কীভাবে এবং কেন কাজ করে তা বাংলায় বিস্তারিত ব্যাখ্যা করা হলো।</p>
+<hr />
+<h2 id="system-architecture-data-flow">১. ডাটা ফ্লো (System Architecture &amp; Data Flow)</h2>
+<p>পাইপলাইনে ডাটা ফ্লো বা প্রসেসিং নিচের ধাপগুলো অনুসরণ করে সম্পন্ন হয়:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>graph TD
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>    A1[Raw Scanner Output: Semgrep/ZAP/Dep-Check] --&gt; A2[Scanner Adapters: Parse JSON to schema]
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    A2 --&gt; B[Parse to VulnerabilityFinding model]
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>    B --&gt; C[Pipeline Orchestrator: TriagePipeline]
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>    C --&gt; D1{CWE Classifier Mode}
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>    D1 -- ML -- &gt; D2[ML Classifier: TF-IDF + LogReg]
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    D1 -- Rules --&gt; D3[Rule-based Classifier: Keywords Map]
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    D2 &amp; D3 --&gt; D4[Threat Intel Enrichment: Exploit/KEV signal]
+</span><span id="__span-0-9"><a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    D4 --&gt; E1[Callgraph Reachability Gate Check]
+</span><span id="__span-0-10"><a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>    E1 --&gt; E2[Entity Extractor]
+</span><span id="__span-0-11"><a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    C --&gt; F1[SQLite Vector Memory: Deduplication check]
+</span><span id="__span-0-12"><a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    C --&gt; G[Priority Scorer: Exploitability-weighted risk scoring]
+</span><span id="__span-0-13"><a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>    C --&gt; H[WAF Proposal Gate Check]
+</span><span id="__span-0-14"><a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    C --&gt; I[OpenAI LLM / Local Triage Agent]
+</span><span id="__span-0-15"><a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    I --&gt; K[Deterministic Approval Policy]
+</span><span id="__span-0-16"><a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    K --&gt; J[NormalizedFinding Output]
+</span><span id="__span-0-17"><a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>    J --&gt; L1[Streamlit Dashboard Web GUI]
+</span><span id="__span-0-18"><a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>    J --&gt; L2[Audit Logger: Append to JSONL]
+</span><span id="__span-0-19"><a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>    J --&gt; L3[Feedback retraining loop: Augment model]
+</span><span id="__span-0-20"><a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>    J --&gt; L4[CWE Calibration Metrics Evaluator]
+</span></code></pre></div>
+<hr />
+<h2 id="_1">২. প্রতিটি নতুন ও পরিবর্তিত কম্পোনেন্টের বিস্তারিত কোড ব্যাখ্যা</h2>
+<h3 id="threat-intelligence-enrichment">ক. থ্রেট ইনটেলিজেন্স এনরিচমেন্ট (Threat Intelligence Enrichment)</h3>
+<ul>
+<li><strong>ফাইল:</strong> <a href="file:///g:/vuln-ai-triage-lab/app/threat_intel/enrichment.py">enrichment.py</a></li>
+<li><strong>কীভাবে কাজ করে:</strong> </li>
+<li>এটি পাইপলাইনের ভেতরে ফাইন্ডিংগুলোর ওপর সক্রিয় শোষণের (exploitation) লাইভ ডাটা যোগ করে।</li>
+<li>এটি <code>data/threat_intel_signals.json</code> ফিক্সচার ফাইল থেকে নির্দিষ্ট CWE আইডি অথবা SCA প্যাকেজের নামের সাথে মিলিয়ে এক্সপ্লয়েট লাইকলিহুড স্কোর (<code>exploit_likelihood</code>) এবং wild-exploitation ফ্ল্যাগ টেনে নিয়ে এসে ফাইন্ডিং অবজেক্টের সাথে যুক্ত করে।</li>
+<li>কোনো ত্রুটির wild-exploitation ফ্ল্যাগ অন থাকলে বা স্কোর <code>0.85</code> বা তার বেশি হলে এটি সরাসরি ফাইন্ডিংটিকে "Exploit Available" হিসেবে চিহ্নিত করে পরবর্তী ঝুঁকি স্কোর বাড়িয়ে দেয়।</li>
+</ul>
+<hr />
+<h3 id="-callgraph-reachability-gate">খ. কলগ্রাফ-ভিত্তিক রিচিবিলিটি গেট (Callgraph Reachability Gate)</h3>
+<ul>
+<li><strong>ফাইল:</strong> <a href="file:///g:/vuln-ai-triage-lab/app/reachability/callgraph_reachability.py">callgraph_reachability.py</a></li>
+<li><strong>কীভাবে কাজ করে:</strong> </li>
+<li>আগে শুধু এপিআই এন্ডপয়েন্ট সাফিক্স ম্যাচ করে রিচিবিলিটি মাপা হতো। সংস্করণ ৫-এ এটি সত্যিকারের স্ট্যাটিক অ্যানালাইসিস ফাইলের প্রবাহ বা কলগ্রাফ (Callgraph map) সিমুলেট করতে পারে।</li>
+<li>এটি <code>data/callgraph_routes.json</code> থেকে আক্রান্ত সোর্স ফাইল পাথ এবং আক্রান্ত এন্ডপয়েন্টকে কোড ট্র্যাসিংয়ের ম্যাপিং ফাইলের সাথে মিলিয়ে দেখে সেই কোড ডোমেনটি আদৌ লাইভ ব্রাউজার ট্রাফিকের সাথে যুক্ত কিনা (Reachable) নাকি ডেড কোড (Dead code)। এটি নিশ্চিত করতে সাহায্য করে যে SCA এবং SAST ফাইন্ডিংসগুলো ফেক বা ফালস পজিটিভ নয়।</li>
+</ul>
+<hr />
+<h3 id="retraining-loop">গ. হিউম্যান ফিডব্যাক রিট্রেনিং লুপ (Retraining Loop)</h3>
+<ul>
+<li><strong>ফাইল:</strong> <a href="file:///g:/vuln-ai-triage-lab/app/feedback/build_training_set.py">build_training_set.py</a></li>
+<li><strong>কীভাবে কাজ করে:</strong></li>
+<li>সিকিউরিটি অ্যানালিস্টরা যখন এপিআই বা ড্যাশবোর্ড থেকে ভুল CWE প্রেডিকশন ঠিক করেন (যেমন: <code>corrected_cwe</code> ফিল্ডের মাধ্যমে), তখন পাইপলাইনের ফিডব্যাক অ্যান্ডপয়েন্ট সেটি <code>api_human_feedback.jsonl</code> ফাইলে সংরক্ষণ করে।</li>
+<li>এই স্ক্রিপ্টটি পূর্বের বেস ট্রেনিং ফাইলের সাথে মানুষের দেওয়া নতুন কারেকশনের টেক্সট সমন্বয় করে নতুন একটি বর্ধিত ট্রেনিং ডাটা সেট (<code>cwe_training_augmented_from_feedback.jsonl</code>) তৈরি করে এবং মডেলটিকে পুনরায় ট্রেন করার প্রসেস সম্পন্ন করে। এটি প্রজেক্টে একটি ডাইনামিক সেলফ-লার্নিং আর্কিটেকচার প্রদান করে।</li>
+</ul>
+<hr />
+<h3 id="compliance-audit-logger">ঘ. কমপ্লায়েন্স অডিট লগার (Compliance Audit Logger)</h3>
+<ul>
+<li><strong>ফাইল:</strong> <a href="file:///g:/vuln-ai-triage-lab/app/audit/audit_logger.py">audit_logger.py</a></li>
+<li><strong>কীভাবে কাজ করে:</strong></li>
+<li>অডিটিং এবং গভর্নেন্স কমপ্লায়েন্স নিশ্চিত করার জন্য, এটি প্রতিটি ফাইন্ডিং প্রসেসিংয়ের সময় নেওয়া গুরুত্বপূর্ণ ব্যাকএন্ড সিদ্ধান্তগুলো (যেমন: প্রেডিকশন কনফিডেন্স, প্রায়োরিটি ওয়েট, রিচিবিলিটি লজিক, মানুষের এপ্রুভাল রিকোয়ারমেন্টস) একটি অ্যাপেন্ড-অনলি জেসন লাইনস (<code>v5_audit_log.jsonl</code>) ফাইলে ডাম্প করে সেভ করে। এটি প্রজেক্টের কাজের সত্যতা প্রমাণ করতে ব্যবহৃত ফরেনসিক ওডিট ট্রেইল হিসেবে কাজ করে।</li>
+</ul>
+<hr />
+<h3 id="model-context-protocol">ঙ. এমসিপি টুলস ইন্টারফেস (Model Context Protocol)</h3>
+<ul>
+<li><strong>ফাইল:</strong> <a href="file:///g:/vuln-ai-triage-lab/app/mcp/tool_contracts.py">tool_contracts.py</a></li>
+<li><strong>কীভাবে কাজ করে:</strong></li>
+<li>পাইপলাইনের কোর ফাংশনগুলোকে LLM এজেন্ট যাতে সরাসরি এক্সিকিউট করতে পারে, সেজন্য এটি স্ট্যান্ডার্ড ডিকশনারি ফরম্যাটের টুল ডিক্লারেশন এবং ইনপুট/আউটপুট জেসন স্কিমা এক্সপোজ করে (যেমন: <code>normalize_vulnerability_to_cwe</code>, <code>enrich_with_threat_intel</code>)।</li>
+</ul>
+<hr />
+<h2 id="cwe-calibration-metrics">৩. মডেল ক্যালিব্রেশন ও বিশ্বস্ততা মূল্যায়ন (CWE Calibration Metrics)</h2>
+<p>সংস্করণ ৫ (v5)-এ শুধু Accuracy বা F1 স্কোরের ওপর ভরসা না করে মডেলের আত্মবিশ্বাস বা কনফিডেন্স ক্যালিব্রেশনের জন্য অত্যন্ত গুরুত্বপূর্ণ ম্যাথমেটিক্যাল ক্যালকুলেশন মডিউল যুক্ত করা হয়েছে:</p>
+<ul>
+<li><strong>মডিউল:</strong> <a href="file:///g:/vuln-ai-triage-lab/app/ml/calibration.py">app/ml/calibration.py</a> ও <a href="file:///g:/vuln-ai-triage-lab/app/evaluation/model_calibration.py">app/evaluation/model_calibration.py</a></li>
+</ul>
+<h3 id="_2">প্রধান ৩টি ক্যালিব্রেশন মেথডোলজি:</h3>
+<ol>
+<li><strong>Multiclass Brier Score:</strong> এটি মডেলের প্রেডিক্ট করা সম্ভাব্য ডিস্ট্রিবিউশন এবং প্রকৃত ওয়ানের (One-hot actual label) মধ্যবর্তী গড় বর্গের পার্থক্য (mean squared error) পরিমাপ করে। স্কোর যত কম হবে (যেমন <code>0.0</code> এর কাছাকাছি), মডেলের প্রোবাবিলিটি স্কোর তত নিখুঁত।</li>
+<li><strong>Expected Calibration Error (ECE):</strong> মডেলের প্রেডিকশন কনফিডেন্সকে ৫টি বিনে (যেমন: ০.০ থেকে ০.২, ০.২ থেকে ০.৪ ইত্যাদি) ভাগ করা হয়। প্রতিটি বিনে কতগুলো উদাহরণ আছে এবং সেই বিনের প্রেডিকশন করা কনফিডেন্সের সাথে গড় সঠিকতা (Accuracy) এর গ্যাপ কতো, তা মেপে ECE বের করা হয়।</li>
+<li><strong>Reliability Bins Map:</strong> প্রতিটি কনফিডেন্স বিনের বিস্তারিত আউটপুট মেপে জেসন ও মার্কডাউন ডল রিপোর্ট তৈরি করে, যা ডেভেলপারদের বোঝাতে সাহায্য করে যে মডেলের প্রেডিকশন কনফিডেন্স কি আসলেই বাস্তবের নির্ভুলতার সাথে মিলে যাচ্ছে কিনা।</li>
+</ol>
+<hr />
+<h2 id="strict-safety-rules">৪. প্রজেক্টের গুরুত্বপূর্ণ সেফটি রুলস (Strict Safety Rules)</h2>
+<ul>
+<li><strong>Threat intel override limits:</strong> থ্রেট ইনটেলিজেন্স স্কোরকে অগ্রাধিকার দিলেও স্কোরিংয়ের ফাইনাল ওয়েটগুলো ডিটারমিনিস্টিক বাইজেন ইকুয়েশনে প্রসেস করা হয়।</li>
+<li><strong>Callgraph priority:</strong> কলগ্রাফ ম্যাপ যদি কোনো ফাইলকে স্পষ্ট মৃত বা ডেড কোড (<code>unreachable_files</code>) বলে ঘোষণা করে, পাইপলাইন সেটিকে ফিজিক্যালি ব্লক বা ডিপ্যারোটিজ করতে বাধ্য থাকে।</li>
+<li><strong>Compliance immutability:</strong> অডিট লগগুলো কোনোভাবে এডিট বা মডিফাই করা যায় না, এটি অ্যাপেন্ড-অনলি রাইটার দিয়ে প্রতি রান শেষে মেমরিতে পুশ করা হয়।</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "content.code.copy"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.525ec568.min.js"></script>
+      
+    
+  </body>
+</html>
