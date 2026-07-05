@@ -7,7 +7,7 @@ from app.schemas import NormalizedFinding
 
 
 def write_markdown_report(results: list[NormalizedFinding], output_path: str | Path) -> None:
-    """Write a batch triage report."""
+    """Write an interview-friendly batch triage report."""
     output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -86,7 +86,7 @@ def write_markdown_report(results: list[NormalizedFinding], output_path: str | P
                 lines.append(f"  - Human approval actions: {', '.join(item.approval_required_actions)}")
         lines.append("")
 
-    lines.append("## Notes for Discussion")
+    lines.append("## Notes for Interview Discussion")
     lines.append("")
     lines.append("- WAF rule eligibility is enforced by deterministic code, not by an LLM prompt.")
     lines.append("- Priority scoring combines CVSS, classifier confidence, reachability, exploit availability, business criticality, and asset exposure.")

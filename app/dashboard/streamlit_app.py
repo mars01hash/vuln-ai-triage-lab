@@ -19,8 +19,9 @@ from app.pipeline import TriagePipeline
 from app.reporting.report_writer import write_markdown_report
 from app.storage.sqlite_vector_memory import SqliteVulnerabilityMemory
 
-st.set_page_config(page_title="Vulnerability AI Triage Lab v4", layout="wide")
-st.title("🔐 Vulnerability AI Triage Lab v4")
+st.set_page_config(page_title="Vulnerability AI Triage Lab v5", layout="wide")
+st.title("🔐 Vulnerability AI Triage Lab v5")
+
 st.caption("Scanner findings → CWE normalization → memory deduplication → priority scoring → human-reviewable triage")
 
 DEFAULT_INPUT = Path("output/scanner_findings_all.json")

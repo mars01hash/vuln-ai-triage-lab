@@ -1,0 +1,14 @@
+{
+  "cwe_signals": {
+    "CWE-89": {"exploit_likelihood": 0.92, "exploited_in_wild": true, "reason": "SQL injection is frequently exploited and often remotely reachable."},
+    "CWE-79": {"exploit_likelihood": 0.78, "exploited_in_wild": true, "reason": "XSS is common and often exploitable when reflected/stored in reachable endpoints."},
+    "CWE-22": {"exploit_likelihood": 0.82, "exploited_in_wild": true, "reason": "Path traversal commonly exposes sensitive local files."},
+    "CWE-918": {"exploit_likelihood": 0.86, "exploited_in_wild": true, "reason": "SSRF can expose cloud metadata and internal services."},
+    "CWE-798": {"exploit_likelihood": 0.70, "exploited_in_wild": false, "reason": "Hardcoded credentials are high impact when credentials are valid."},
+    "CWE-352": {"exploit_likelihood": 0.62, "exploited_in_wild": false, "reason": "CSRF exploitability depends on session and user interaction conditions."}
+  },
+  "package_signals": {
+    "log4j-core": {"exploit_likelihood": 0.98, "exploited_in_wild": true, "reason": "Known high-profile exploitation history for vulnerable Log4j versions."},
+    "django": {"exploit_likelihood": 0.66, "exploited_in_wild": false, "reason": "Exploitability depends on version and application configuration."}
+  }
+}

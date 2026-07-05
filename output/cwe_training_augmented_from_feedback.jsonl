@@ -1,0 +1,234 @@
+{"id": "CWE-89-001", "text": "SQL Injection (CWE-89) detected: sql injection affects /api/orders parameter id.", "cwe": "CWE-89"}
+{"id": "CWE-89-002", "text": "Finding indicates raw sql; union select risk in /login using user controlled username.", "cwe": "CWE-89"}
+{"id": "CWE-89-003", "text": "/search has possible sql injection because q shows sql query.", "cwe": "CWE-89"}
+{"id": "CWE-89-004", "text": "Security scanner reported union select and prepared statements missing for account_id in /checkout.", "cwe": "CWE-89"}
+{"id": "CWE-89-005", "text": "SQL Injection (CWE-89) detected: database query affects /api/orders parameter id.", "cwe": "CWE-89"}
+{"id": "CWE-89-006", "text": "Finding indicates prepared statements missing; raw sql risk in /login using user controlled username.", "cwe": "CWE-89"}
+{"id": "CWE-89-007", "text": "/search has possible sql injection because q shows sql injection.", "cwe": "CWE-89"}
+{"id": "CWE-89-008", "text": "Security scanner reported raw sql and union select for account_id in /checkout.", "cwe": "CWE-89"}
+{"id": "CWE-89-009", "text": "SQL Injection (CWE-89) detected: sql query affects /api/orders parameter id.", "cwe": "CWE-89"}
+{"id": "CWE-89-010", "text": "Finding indicates union select; prepared statements missing risk in /login using user controlled username.", "cwe": "CWE-89"}
+{"id": "CWE-89-011", "text": "/search has possible sql injection because q shows database query.", "cwe": "CWE-89"}
+{"id": "CWE-89-012", "text": "Security scanner reported prepared statements missing and raw sql for account_id in /checkout.", "cwe": "CWE-89"}
+{"id": "CWE-89-013", "text": "SQL Injection (CWE-89) detected: sql injection affects /api/orders parameter id.", "cwe": "CWE-89"}
+{"id": "CWE-89-014", "text": "Finding indicates raw sql; union select risk in /login using user controlled username.", "cwe": "CWE-89"}
+{"id": "CWE-89-015", "text": "/search has possible sql injection because q shows sql query.", "cwe": "CWE-89"}
+{"id": "CWE-89-016", "text": "Security scanner reported union select and prepared statements missing for account_id in /checkout.", "cwe": "CWE-89"}
+{"id": "CWE-89-017", "text": "SQL Injection (CWE-89) detected: database query affects /api/orders parameter id.", "cwe": "CWE-89"}
+{"id": "CWE-89-018", "text": "Finding indicates prepared statements missing; raw sql risk in /login using user controlled username.", "cwe": "CWE-89"}
+{"id": "CWE-79-001", "text": "Cross-Site Scripting (CWE-79) detected: xss affects /search parameter q.", "cwe": "CWE-79"}
+{"id": "CWE-79-002", "text": "Finding indicates cross-site scripting; innerHTML risk in /comments using user controlled comment.", "cwe": "CWE-79"}
+{"id": "CWE-79-003", "text": "/profile has possible cross-site scripting because displayName shows script execution.", "cwe": "CWE-79"}
+{"id": "CWE-79-004", "text": "Security scanner reported innerHTML and javascript payload for message in /dashboard.", "cwe": "CWE-79"}
+{"id": "CWE-79-005", "text": "Cross-Site Scripting (CWE-79) detected: html injection affects /search parameter q.", "cwe": "CWE-79"}
+{"id": "CWE-79-006", "text": "Finding indicates javascript payload; cross-site scripting risk in /comments using user controlled comment.", "cwe": "CWE-79"}
+{"id": "CWE-79-007", "text": "/profile has possible cross-site scripting because displayName shows xss.", "cwe": "CWE-79"}
+{"id": "CWE-79-008", "text": "Security scanner reported cross-site scripting and innerHTML for message in /dashboard.", "cwe": "CWE-79"}
+{"id": "CWE-79-009", "text": "Cross-Site Scripting (CWE-79) detected: script execution affects /search parameter q.", "cwe": "CWE-79"}
+{"id": "CWE-79-010", "text": "Finding indicates innerHTML; javascript payload risk in /comments using user controlled comment.", "cwe": "CWE-79"}
+{"id": "CWE-79-011", "text": "/profile has possible cross-site scripting because displayName shows html injection.", "cwe": "CWE-79"}
+{"id": "CWE-79-012", "text": "Security scanner reported javascript payload and cross-site scripting for message in /dashboard.", "cwe": "CWE-79"}
+{"id": "CWE-79-013", "text": "Cross-Site Scripting (CWE-79) detected: xss affects /search parameter q.", "cwe": "CWE-79"}
+{"id": "CWE-79-014", "text": "Finding indicates cross-site scripting; innerHTML risk in /comments using user controlled comment.", "cwe": "CWE-79"}
+{"id": "CWE-79-015", "text": "/profile has possible cross-site scripting because displayName shows script execution.", "cwe": "CWE-79"}
+{"id": "CWE-79-016", "text": "Security scanner reported innerHTML and javascript payload for message in /dashboard.", "cwe": "CWE-79"}
+{"id": "CWE-79-017", "text": "Cross-Site Scripting (CWE-79) detected: html injection affects /search parameter q.", "cwe": "CWE-79"}
+{"id": "CWE-79-018", "text": "Finding indicates javascript payload; cross-site scripting risk in /comments using user controlled comment.", "cwe": "CWE-79"}
+{"id": "CWE-22-001", "text": "Path Traversal (CWE-22) detected: path traversal affects /download parameter filename.", "cwe": "CWE-22"}
+{"id": "CWE-22-002", "text": "Finding indicates directory traversal; arbitrary file read risk in /files using user controlled path.", "cwe": "CWE-22"}
+{"id": "CWE-22-003", "text": "/template has possible path traversal because template shows ../.", "cwe": "CWE-22"}
+{"id": "CWE-22-004", "text": "Security scanner reported arbitrary file read and dot dot slash for file in /report.", "cwe": "CWE-22"}
+{"id": "CWE-22-005", "text": "Path Traversal (CWE-22) detected: file path affects /download parameter filename.", "cwe": "CWE-22"}
+{"id": "CWE-22-006", "text": "Finding indicates dot dot slash; directory traversal risk in /files using user controlled path.", "cwe": "CWE-22"}
+{"id": "CWE-22-007", "text": "/template has possible path traversal because template shows path traversal.", "cwe": "CWE-22"}
+{"id": "CWE-22-008", "text": "Security scanner reported directory traversal and arbitrary file read for file in /report.", "cwe": "CWE-22"}
+{"id": "CWE-22-009", "text": "Path Traversal (CWE-22) detected: ../ affects /download parameter filename.", "cwe": "CWE-22"}
+{"id": "CWE-22-010", "text": "Finding indicates arbitrary file read; dot dot slash risk in /files using user controlled path.", "cwe": "CWE-22"}
+{"id": "CWE-22-011", "text": "/template has possible path traversal because template shows file path.", "cwe": "CWE-22"}
+{"id": "CWE-22-012", "text": "Security scanner reported dot dot slash and directory traversal for file in /report.", "cwe": "CWE-22"}
+{"id": "CWE-22-013", "text": "Path Traversal (CWE-22) detected: path traversal affects /download parameter filename.", "cwe": "CWE-22"}
+{"id": "CWE-22-014", "text": "Finding indicates directory traversal; arbitrary file read risk in /files using user controlled path.", "cwe": "CWE-22"}
+{"id": "CWE-22-015", "text": "/template has possible path traversal because template shows ../.", "cwe": "CWE-22"}
+{"id": "CWE-22-016", "text": "Security scanner reported arbitrary file read and dot dot slash for file in /report.", "cwe": "CWE-22"}
+{"id": "CWE-22-017", "text": "Path Traversal (CWE-22) detected: file path affects /download parameter filename.", "cwe": "CWE-22"}
+{"id": "CWE-22-018", "text": "Finding indicates dot dot slash; directory traversal risk in /files using user controlled path.", "cwe": "CWE-22"}
+{"id": "CWE-287-001", "text": "Improper Authentication (CWE-287) detected: authentication bypass affects /admin parameter session.", "cwe": "CWE-287"}
+{"id": "CWE-287-002", "text": "Finding indicates missing authentication; login bypass risk in /account using user controlled token.", "cwe": "CWE-287"}
+{"id": "CWE-287-003", "text": "/api/private has possible improper authentication because user shows unauthenticated.", "cwe": "CWE-287"}
+{"id": "CWE-287-004", "text": "Security scanner reported login bypass and identity verification skipped for auth in /settings.", "cwe": "CWE-287"}
+{"id": "CWE-287-005", "text": "Improper Authentication (CWE-287) detected: improper authentication affects /admin parameter session.", "cwe": "CWE-287"}
+{"id": "CWE-287-006", "text": "Finding indicates identity verification skipped; missing authentication risk in /account using user controlled token.", "cwe": "CWE-287"}
+{"id": "CWE-287-007", "text": "/api/private has possible improper authentication because user shows authentication bypass.", "cwe": "CWE-287"}
+{"id": "CWE-287-008", "text": "Security scanner reported missing authentication and login bypass for auth in /settings.", "cwe": "CWE-287"}
+{"id": "CWE-287-009", "text": "Improper Authentication (CWE-287) detected: unauthenticated affects /admin parameter session.", "cwe": "CWE-287"}
+{"id": "CWE-287-010", "text": "Finding indicates login bypass; identity verification skipped risk in /account using user controlled token.", "cwe": "CWE-287"}
+{"id": "CWE-287-011", "text": "/api/private has possible improper authentication because user shows improper authentication.", "cwe": "CWE-287"}
+{"id": "CWE-287-012", "text": "Security scanner reported identity verification skipped and missing authentication for auth in /settings.", "cwe": "CWE-287"}
+{"id": "CWE-287-013", "text": "Improper Authentication (CWE-287) detected: authentication bypass affects /admin parameter session.", "cwe": "CWE-287"}
+{"id": "CWE-287-014", "text": "Finding indicates missing authentication; login bypass risk in /account using user controlled token.", "cwe": "CWE-287"}
+{"id": "CWE-287-015", "text": "/api/private has possible improper authentication because user shows unauthenticated.", "cwe": "CWE-287"}
+{"id": "CWE-287-016", "text": "Security scanner reported login bypass and identity verification skipped for auth in /settings.", "cwe": "CWE-287"}
+{"id": "CWE-287-017", "text": "Improper Authentication (CWE-287) detected: improper authentication affects /admin parameter session.", "cwe": "CWE-287"}
+{"id": "CWE-287-018", "text": "Finding indicates identity verification skipped; missing authentication risk in /account using user controlled token.", "cwe": "CWE-287"}
+{"id": "CWE-862-001", "text": "Missing Authorization (CWE-862) detected: missing authorization affects /invoice parameter user_id.", "cwe": "CWE-862"}
+{"id": "CWE-862-002", "text": "Finding indicates broken access control; insecure direct object reference risk in /tenant using user controlled invoice_id.", "cwe": "CWE-862"}
+{"id": "CWE-862-003", "text": "/users has possible missing authorization because tenant_id shows idor.", "cwe": "CWE-862"}
+{"id": "CWE-862-004", "text": "Security scanner reported insecure direct object reference and object authorization for role in /admin/role.", "cwe": "CWE-862"}
+{"id": "CWE-862-005", "text": "Missing Authorization (CWE-862) detected: privilege check affects /invoice parameter user_id.", "cwe": "CWE-862"}
+{"id": "CWE-862-006", "text": "Finding indicates object authorization; broken access control risk in /tenant using user controlled invoice_id.", "cwe": "CWE-862"}
+{"id": "CWE-862-007", "text": "/users has possible missing authorization because tenant_id shows missing authorization.", "cwe": "CWE-862"}
+{"id": "CWE-862-008", "text": "Security scanner reported broken access control and insecure direct object reference for role in /admin/role.", "cwe": "CWE-862"}
+{"id": "CWE-862-009", "text": "Missing Authorization (CWE-862) detected: idor affects /invoice parameter user_id.", "cwe": "CWE-862"}
+{"id": "CWE-862-010", "text": "Finding indicates insecure direct object reference; object authorization risk in /tenant using user controlled invoice_id.", "cwe": "CWE-862"}
+{"id": "CWE-862-011", "text": "/users has possible missing authorization because tenant_id shows privilege check.", "cwe": "CWE-862"}
+{"id": "CWE-862-012", "text": "Security scanner reported object authorization and broken access control for role in /admin/role.", "cwe": "CWE-862"}
+{"id": "CWE-862-013", "text": "Missing Authorization (CWE-862) detected: missing authorization affects /invoice parameter user_id.", "cwe": "CWE-862"}
+{"id": "CWE-862-014", "text": "Finding indicates broken access control; insecure direct object reference risk in /tenant using user controlled invoice_id.", "cwe": "CWE-862"}
+{"id": "CWE-862-015", "text": "/users has possible missing authorization because tenant_id shows idor.", "cwe": "CWE-862"}
+{"id": "CWE-862-016", "text": "Security scanner reported insecure direct object reference and object authorization for role in /admin/role.", "cwe": "CWE-862"}
+{"id": "CWE-862-017", "text": "Missing Authorization (CWE-862) detected: privilege check affects /invoice parameter user_id.", "cwe": "CWE-862"}
+{"id": "CWE-862-018", "text": "Finding indicates object authorization; broken access control risk in /tenant using user controlled invoice_id.", "cwe": "CWE-862"}
+{"id": "CWE-798-001", "text": "Hard-coded Credentials (CWE-798) detected: hardcoded credential affects settings.py parameter AWS_KEY.", "cwe": "CWE-798"}
+{"id": "CWE-798-002", "text": "Finding indicates api key; password in source risk in config.yml using user controlled DB_PASSWORD.", "cwe": "CWE-798"}
+{"id": "CWE-798-003", "text": "deploy.sh has possible hard-coded credentials because SECRET_TOKEN shows secret key.", "cwe": "CWE-798"}
+{"id": "CWE-798-004", "text": "Security scanner reported password in source and token in code for PRIVATE_KEY in app.env.", "cwe": "CWE-798"}
+{"id": "CWE-798-005", "text": "Hard-coded Credentials (CWE-798) detected: private key affects settings.py parameter AWS_KEY.", "cwe": "CWE-798"}
+{"id": "CWE-798-006", "text": "Finding indicates token in code; api key risk in config.yml using user controlled DB_PASSWORD.", "cwe": "CWE-798"}
+{"id": "CWE-798-007", "text": "deploy.sh has possible hard-coded credentials because SECRET_TOKEN shows hardcoded credential.", "cwe": "CWE-798"}
+{"id": "CWE-798-008", "text": "Security scanner reported api key and password in source for PRIVATE_KEY in app.env.", "cwe": "CWE-798"}
+{"id": "CWE-798-009", "text": "Hard-coded Credentials (CWE-798) detected: secret key affects settings.py parameter AWS_KEY.", "cwe": "CWE-798"}
+{"id": "CWE-798-010", "text": "Finding indicates password in source; token in code risk in config.yml using user controlled DB_PASSWORD.", "cwe": "CWE-798"}
+{"id": "CWE-798-011", "text": "deploy.sh has possible hard-coded credentials because SECRET_TOKEN shows private key.", "cwe": "CWE-798"}
+{"id": "CWE-798-012", "text": "Security scanner reported token in code and api key for PRIVATE_KEY in app.env.", "cwe": "CWE-798"}
+{"id": "CWE-798-013", "text": "Hard-coded Credentials (CWE-798) detected: hardcoded credential affects settings.py parameter AWS_KEY.", "cwe": "CWE-798"}
+{"id": "CWE-798-014", "text": "Finding indicates api key; password in source risk in config.yml using user controlled DB_PASSWORD.", "cwe": "CWE-798"}
+{"id": "CWE-798-015", "text": "deploy.sh has possible hard-coded credentials because SECRET_TOKEN shows secret key.", "cwe": "CWE-798"}
+{"id": "CWE-798-016", "text": "Security scanner reported password in source and token in code for PRIVATE_KEY in app.env.", "cwe": "CWE-798"}
+{"id": "CWE-798-017", "text": "Hard-coded Credentials (CWE-798) detected: private key affects settings.py parameter AWS_KEY.", "cwe": "CWE-798"}
+{"id": "CWE-798-018", "text": "Finding indicates token in code; api key risk in config.yml using user controlled DB_PASSWORD.", "cwe": "CWE-798"}
+{"id": "CWE-502-001", "text": "Deserialization of Untrusted Data (CWE-502) detected: deserialization affects /session/restore parameter payload.", "cwe": "CWE-502"}
+{"id": "CWE-502-002", "text": "Finding indicates pickle; yaml.load risk in /import using user controlled object.", "cwe": "CWE-502"}
+{"id": "CWE-502-003", "text": "/queue/consume has possible deserialization of untrusted data because session shows unsafe deserialize.", "cwe": "CWE-502"}
+{"id": "CWE-502-004", "text": "Security scanner reported yaml.load and untrusted object for message in /api/load.", "cwe": "CWE-502"}
+{"id": "CWE-502-005", "text": "Deserialization of Untrusted Data (CWE-502) detected: java serialization affects /session/restore parameter payload.", "cwe": "CWE-502"}
+{"id": "CWE-502-006", "text": "Finding indicates untrusted object; pickle risk in /import using user controlled object.", "cwe": "CWE-502"}
+{"id": "CWE-502-007", "text": "/queue/consume has possible deserialization of untrusted data because session shows deserialization.", "cwe": "CWE-502"}
+{"id": "CWE-502-008", "text": "Security scanner reported pickle and yaml.load for message in /api/load.", "cwe": "CWE-502"}
+{"id": "CWE-502-009", "text": "Deserialization of Untrusted Data (CWE-502) detected: unsafe deserialize affects /session/restore parameter payload.", "cwe": "CWE-502"}
+{"id": "CWE-502-010", "text": "Finding indicates yaml.load; untrusted object risk in /import using user controlled object.", "cwe": "CWE-502"}
+{"id": "CWE-502-011", "text": "/queue/consume has possible deserialization of untrusted data because session shows java serialization.", "cwe": "CWE-502"}
+{"id": "CWE-502-012", "text": "Security scanner reported untrusted object and pickle for message in /api/load.", "cwe": "CWE-502"}
+{"id": "CWE-502-013", "text": "Deserialization of Untrusted Data (CWE-502) detected: deserialization affects /session/restore parameter payload.", "cwe": "CWE-502"}
+{"id": "CWE-502-014", "text": "Finding indicates pickle; yaml.load risk in /import using user controlled object.", "cwe": "CWE-502"}
+{"id": "CWE-502-015", "text": "/queue/consume has possible deserialization of untrusted data because session shows unsafe deserialize.", "cwe": "CWE-502"}
+{"id": "CWE-502-016", "text": "Security scanner reported yaml.load and untrusted object for message in /api/load.", "cwe": "CWE-502"}
+{"id": "CWE-502-017", "text": "Deserialization of Untrusted Data (CWE-502) detected: java serialization affects /session/restore parameter payload.", "cwe": "CWE-502"}
+{"id": "CWE-502-018", "text": "Finding indicates untrusted object; pickle risk in /import using user controlled object.", "cwe": "CWE-502"}
+{"id": "CWE-200-001", "text": "Exposure of Sensitive Information (CWE-200) detected: sensitive information affects /error parameter email.", "cwe": "CWE-200"}
+{"id": "CWE-200-002", "text": "Finding indicates information exposure; debug info risk in /profile using user controlled token.", "cwe": "CWE-200"}
+{"id": "CWE-200-003", "text": "/debug has possible exposure of sensitive information because ssn shows stack trace.", "cwe": "CWE-200"}
+{"id": "CWE-200-004", "text": "Security scanner reported debug info and secret exposed for trace in /logs.", "cwe": "CWE-200"}
+{"id": "CWE-200-005", "text": "Exposure of Sensitive Information (CWE-200) detected: pii affects /error parameter email.", "cwe": "CWE-200"}
+{"id": "CWE-200-006", "text": "Finding indicates secret exposed; information exposure risk in /profile using user controlled token.", "cwe": "CWE-200"}
+{"id": "CWE-200-007", "text": "/debug has possible exposure of sensitive information because ssn shows sensitive information.", "cwe": "CWE-200"}
+{"id": "CWE-200-008", "text": "Security scanner reported information exposure and debug info for trace in /logs.", "cwe": "CWE-200"}
+{"id": "CWE-200-009", "text": "Exposure of Sensitive Information (CWE-200) detected: stack trace affects /error parameter email.", "cwe": "CWE-200"}
+{"id": "CWE-200-010", "text": "Finding indicates debug info; secret exposed risk in /profile using user controlled token.", "cwe": "CWE-200"}
+{"id": "CWE-200-011", "text": "/debug has possible exposure of sensitive information because ssn shows pii.", "cwe": "CWE-200"}
+{"id": "CWE-200-012", "text": "Security scanner reported secret exposed and information exposure for trace in /logs.", "cwe": "CWE-200"}
+{"id": "CWE-200-013", "text": "Exposure of Sensitive Information (CWE-200) detected: sensitive information affects /error parameter email.", "cwe": "CWE-200"}
+{"id": "CWE-200-014", "text": "Finding indicates information exposure; debug info risk in /profile using user controlled token.", "cwe": "CWE-200"}
+{"id": "CWE-200-015", "text": "/debug has possible exposure of sensitive information because ssn shows stack trace.", "cwe": "CWE-200"}
+{"id": "CWE-200-016", "text": "Security scanner reported debug info and secret exposed for trace in /logs.", "cwe": "CWE-200"}
+{"id": "CWE-200-017", "text": "Exposure of Sensitive Information (CWE-200) detected: pii affects /error parameter email.", "cwe": "CWE-200"}
+{"id": "CWE-200-018", "text": "Finding indicates secret exposed; information exposure risk in /profile using user controlled token.", "cwe": "CWE-200"}
+{"id": "CWE-918-001", "text": "Server-Side Request Forgery (CWE-918) detected: ssrf affects /fetch parameter url.", "cwe": "CWE-918"}
+{"id": "CWE-918-002", "text": "Finding indicates server-side request forgery; metadata service risk in /webhook using user controlled target.", "cwe": "CWE-918"}
+{"id": "CWE-918-003", "text": "/preview has possible server-side request forgery because callback shows internal url.", "cwe": "CWE-918"}
+{"id": "CWE-918-004", "text": "Security scanner reported metadata service and fetch url for remote in /import-url.", "cwe": "CWE-918"}
+{"id": "CWE-918-005", "text": "Server-Side Request Forgery (CWE-918) detected: 169.254.169.254 affects /fetch parameter url.", "cwe": "CWE-918"}
+{"id": "CWE-918-006", "text": "Finding indicates fetch url; server-side request forgery risk in /webhook using user controlled target.", "cwe": "CWE-918"}
+{"id": "CWE-918-007", "text": "/preview has possible server-side request forgery because callback shows ssrf.", "cwe": "CWE-918"}
+{"id": "CWE-918-008", "text": "Security scanner reported server-side request forgery and metadata service for remote in /import-url.", "cwe": "CWE-918"}
+{"id": "CWE-918-009", "text": "Server-Side Request Forgery (CWE-918) detected: internal url affects /fetch parameter url.", "cwe": "CWE-918"}
+{"id": "CWE-918-010", "text": "Finding indicates metadata service; fetch url risk in /webhook using user controlled target.", "cwe": "CWE-918"}
+{"id": "CWE-918-011", "text": "/preview has possible server-side request forgery because callback shows 169.254.169.254.", "cwe": "CWE-918"}
+{"id": "CWE-918-012", "text": "Security scanner reported fetch url and server-side request forgery for remote in /import-url.", "cwe": "CWE-918"}
+{"id": "CWE-918-013", "text": "Server-Side Request Forgery (CWE-918) detected: ssrf affects /fetch parameter url.", "cwe": "CWE-918"}
+{"id": "CWE-918-014", "text": "Finding indicates server-side request forgery; metadata service risk in /webhook using user controlled target.", "cwe": "CWE-918"}
+{"id": "CWE-918-015", "text": "/preview has possible server-side request forgery because callback shows internal url.", "cwe": "CWE-918"}
+{"id": "CWE-918-016", "text": "Security scanner reported metadata service and fetch url for remote in /import-url.", "cwe": "CWE-918"}
+{"id": "CWE-918-017", "text": "Server-Side Request Forgery (CWE-918) detected: 169.254.169.254 affects /fetch parameter url.", "cwe": "CWE-918"}
+{"id": "CWE-918-018", "text": "Finding indicates fetch url; server-side request forgery risk in /webhook using user controlled target.", "cwe": "CWE-918"}
+{"id": "CWE-352-001", "text": "Cross-Site Request Forgery (CWE-352) detected: csrf affects /change-password parameter form.", "cwe": "CWE-352"}
+{"id": "CWE-352-002", "text": "Finding indicates cross-site request forgery; anti-csrf risk in /transfer using user controlled token.", "cwe": "CWE-352"}
+{"id": "CWE-352-003", "text": "/account/update has possible cross-site request forgery because request shows missing csrf.", "cwe": "CWE-352"}
+{"id": "CWE-352-004", "text": "Security scanner reported anti-csrf and SameSite cookie for cookie in /settings.", "cwe": "CWE-352"}
+{"id": "CWE-352-005", "text": "Cross-Site Request Forgery (CWE-352) detected: csrf token affects /change-password parameter form.", "cwe": "CWE-352"}
+{"id": "CWE-352-006", "text": "Finding indicates SameSite cookie; cross-site request forgery risk in /transfer using user controlled token.", "cwe": "CWE-352"}
+{"id": "CWE-352-007", "text": "/account/update has possible cross-site request forgery because request shows csrf.", "cwe": "CWE-352"}
+{"id": "CWE-352-008", "text": "Security scanner reported cross-site request forgery and anti-csrf for cookie in /settings.", "cwe": "CWE-352"}
+{"id": "CWE-352-009", "text": "Cross-Site Request Forgery (CWE-352) detected: missing csrf affects /change-password parameter form.", "cwe": "CWE-352"}
+{"id": "CWE-352-010", "text": "Finding indicates anti-csrf; SameSite cookie risk in /transfer using user controlled token.", "cwe": "CWE-352"}
+{"id": "CWE-352-011", "text": "/account/update has possible cross-site request forgery because request shows csrf token.", "cwe": "CWE-352"}
+{"id": "CWE-352-012", "text": "Security scanner reported SameSite cookie and cross-site request forgery for cookie in /settings.", "cwe": "CWE-352"}
+{"id": "CWE-352-013", "text": "Cross-Site Request Forgery (CWE-352) detected: csrf affects /change-password parameter form.", "cwe": "CWE-352"}
+{"id": "CWE-352-014", "text": "Finding indicates cross-site request forgery; anti-csrf risk in /transfer using user controlled token.", "cwe": "CWE-352"}
+{"id": "CWE-352-015", "text": "/account/update has possible cross-site request forgery because request shows missing csrf.", "cwe": "CWE-352"}
+{"id": "CWE-352-016", "text": "Security scanner reported anti-csrf and SameSite cookie for cookie in /settings.", "cwe": "CWE-352"}
+{"id": "CWE-352-017", "text": "Cross-Site Request Forgery (CWE-352) detected: csrf token affects /change-password parameter form.", "cwe": "CWE-352"}
+{"id": "CWE-352-018", "text": "Finding indicates SameSite cookie; cross-site request forgery risk in /transfer using user controlled token.", "cwe": "CWE-352"}
+{"id": "CWE-400-001", "text": "Uncontrolled Resource Consumption (CWE-400) detected: denial of service affects /upload parameter size.", "cwe": "CWE-400"}
+{"id": "CWE-400-002", "text": "Finding indicates resource exhaustion; rate limit risk in /search using user controlled limit.", "cwe": "CWE-400"}
+{"id": "CWE-400-003", "text": "/export has possible uncontrolled resource consumption because page shows unbounded.", "cwe": "CWE-400"}
+{"id": "CWE-400-004", "text": "Security scanner reported rate limit and memory exhaustion for payload in /report.", "cwe": "CWE-400"}
+{"id": "CWE-400-005", "text": "Uncontrolled Resource Consumption (CWE-400) detected: large payload affects /upload parameter size.", "cwe": "CWE-400"}
+{"id": "CWE-400-006", "text": "Finding indicates memory exhaustion; resource exhaustion risk in /search using user controlled limit.", "cwe": "CWE-400"}
+{"id": "CWE-400-007", "text": "/export has possible uncontrolled resource consumption because page shows denial of service.", "cwe": "CWE-400"}
+{"id": "CWE-400-008", "text": "Security scanner reported resource exhaustion and rate limit for payload in /report.", "cwe": "CWE-400"}
+{"id": "CWE-400-009", "text": "Uncontrolled Resource Consumption (CWE-400) detected: unbounded affects /upload parameter size.", "cwe": "CWE-400"}
+{"id": "CWE-400-010", "text": "Finding indicates rate limit; memory exhaustion risk in /search using user controlled limit.", "cwe": "CWE-400"}
+{"id": "CWE-400-011", "text": "/export has possible uncontrolled resource consumption because page shows large payload.", "cwe": "CWE-400"}
+{"id": "CWE-400-012", "text": "Security scanner reported memory exhaustion and resource exhaustion for payload in /report.", "cwe": "CWE-400"}
+{"id": "CWE-400-013", "text": "Uncontrolled Resource Consumption (CWE-400) detected: denial of service affects /upload parameter size.", "cwe": "CWE-400"}
+{"id": "CWE-400-014", "text": "Finding indicates resource exhaustion; rate limit risk in /search using user controlled limit.", "cwe": "CWE-400"}
+{"id": "CWE-400-015", "text": "/export has possible uncontrolled resource consumption because page shows unbounded.", "cwe": "CWE-400"}
+{"id": "CWE-400-016", "text": "Security scanner reported rate limit and memory exhaustion for payload in /report.", "cwe": "CWE-400"}
+{"id": "CWE-400-017", "text": "Uncontrolled Resource Consumption (CWE-400) detected: large payload affects /upload parameter size.", "cwe": "CWE-400"}
+{"id": "CWE-400-018", "text": "Finding indicates memory exhaustion; resource exhaustion risk in /search using user controlled limit.", "cwe": "CWE-400"}
+{"id": "CWE-20-001", "text": "Improper Input Validation (CWE-20) detected: improper input validation affects /api/form parameter field.", "cwe": "CWE-20"}
+{"id": "CWE-20-002", "text": "Finding indicates input validation missing; invalid input risk in /submit using user controlled value.", "cwe": "CWE-20"}
+{"id": "CWE-20-003", "text": "/process has possible improper input validation because input shows untrusted input.", "cwe": "CWE-20"}
+{"id": "CWE-20-004", "text": "Security scanner reported invalid input and not constrained for parameter in /create.", "cwe": "CWE-20"}
+{"id": "CWE-20-005", "text": "Improper Input Validation (CWE-20) detected: trust boundary affects /api/form parameter field.", "cwe": "CWE-20"}
+{"id": "CWE-20-006", "text": "Finding indicates not constrained; input validation missing risk in /submit using user controlled value.", "cwe": "CWE-20"}
+{"id": "CWE-20-007", "text": "/process has possible improper input validation because input shows improper input validation.", "cwe": "CWE-20"}
+{"id": "CWE-20-008", "text": "Security scanner reported input validation missing and invalid input for parameter in /create.", "cwe": "CWE-20"}
+{"id": "CWE-20-009", "text": "Improper Input Validation (CWE-20) detected: untrusted input affects /api/form parameter field.", "cwe": "CWE-20"}
+{"id": "CWE-20-010", "text": "Finding indicates invalid input; not constrained risk in /submit using user controlled value.", "cwe": "CWE-20"}
+{"id": "CWE-20-011", "text": "/process has possible improper input validation because input shows trust boundary.", "cwe": "CWE-20"}
+{"id": "CWE-20-012", "text": "Security scanner reported not constrained and input validation missing for parameter in /create.", "cwe": "CWE-20"}
+{"id": "CWE-20-013", "text": "Improper Input Validation (CWE-20) detected: improper input validation affects /api/form parameter field.", "cwe": "CWE-20"}
+{"id": "CWE-20-014", "text": "Finding indicates input validation missing; invalid input risk in /submit using user controlled value.", "cwe": "CWE-20"}
+{"id": "CWE-20-015", "text": "/process has possible improper input validation because input shows untrusted input.", "cwe": "CWE-20"}
+{"id": "CWE-20-016", "text": "Security scanner reported invalid input and not constrained for parameter in /create.", "cwe": "CWE-20"}
+{"id": "CWE-20-017", "text": "Improper Input Validation (CWE-20) detected: trust boundary affects /api/form parameter field.", "cwe": "CWE-20"}
+{"id": "CWE-20-018", "text": "Finding indicates not constrained; input validation missing risk in /submit using user controlled value.", "cwe": "CWE-20"}
+{"id": "CWE-20-log4j-01", "text": "Dependency package log4j-core version 2.14.1 affected by remote code execution and unsafe lookup behavior input validation weakness sample 0.", "cwe": "CWE-20"}
+{"id": "CWE-20-log4j-02", "text": "Dependency package log4j-core version 2.14.1 affected by remote code execution and unsafe lookup behavior input validation weakness sample 1.", "cwe": "CWE-20"}
+{"id": "CWE-20-log4j-03", "text": "Dependency package log4j-core version 2.14.1 affected by remote code execution and unsafe lookup behavior input validation weakness sample 2.", "cwe": "CWE-20"}
+{"id": "CWE-20-log4j-04", "text": "Dependency package log4j-core version 2.14.1 affected by remote code execution and unsafe lookup behavior input validation weakness sample 3.", "cwe": "CWE-20"}
+{"id": "CWE-20-log4j-05", "text": "Dependency package log4j-core version 2.14.1 affected by remote code execution and unsafe lookup behavior input validation weakness sample 4.", "cwe": "CWE-20"}
+{"id": "CWE-20-log4j-06", "text": "Dependency package log4j-core version 2.14.1 affected by remote code execution and unsafe lookup behavior input validation weakness sample 5.", "cwe": "CWE-20"}
+{"id": "CWE-20-log4j-07", "text": "Dependency package log4j-core version 2.14.1 affected by remote code execution and unsafe lookup behavior input validation weakness sample 6.", "cwe": "CWE-20"}
+{"id": "CWE-20-log4j-08", "text": "Dependency package log4j-core version 2.14.1 affected by remote code execution and unsafe lookup behavior input validation weakness sample 7.", "cwe": "CWE-20"}
+{"id": "CWE-20-log4j-09", "text": "Dependency package log4j-core version 2.14.1 affected by remote code execution and unsafe lookup behavior input validation weakness sample 8.", "cwe": "CWE-20"}
+{"id": "CWE-20-log4j-10", "text": "Dependency package log4j-core version 2.14.1 affected by remote code execution and unsafe lookup behavior input validation weakness sample 9.", "cwe": "CWE-20"}
+{"id": "CWE-20-log4j-11", "text": "Dependency package log4j-core version 2.14.1 affected by remote code execution and unsafe lookup behavior input validation weakness sample 10.", "cwe": "CWE-20"}
+{"id": "CWE-20-log4j-12", "text": "Dependency package log4j-core version 2.14.1 affected by remote code execution and unsafe lookup behavior input validation weakness sample 11.", "cwe": "CWE-20"}
+{"id": "CWE-20-log4j-13", "text": "Dependency package log4j-core version 2.14.1 affected by remote code execution and unsafe lookup behavior input validation weakness sample 12.", "cwe": "CWE-20"}
+{"id": "CWE-20-log4j-14", "text": "Dependency package log4j-core version 2.14.1 affected by remote code execution and unsafe lookup behavior input validation weakness sample 13.", "cwe": "CWE-20"}
+{"id": "CWE-20-log4j-15", "text": "Dependency package log4j-core version 2.14.1 affected by remote code execution and unsafe lookup behavior input validation weakness sample 14.", "cwe": "CWE-20"}
+{"id": "CWE-20-log4j-16", "text": "Dependency package log4j-core version 2.14.1 affected by remote code execution and unsafe lookup behavior input validation weakness sample 15.", "cwe": "CWE-20"}
+{"id": "CWE-20-log4j-17", "text": "Dependency package log4j-core version 2.14.1 affected by remote code execution and unsafe lookup behavior input validation weakness sample 16.", "cwe": "CWE-20"}
+{"id": "CWE-20-log4j-18", "text": "Dependency package log4j-core version 2.14.1 affected by remote code execution and unsafe lookup behavior input validation weakness sample 17.", "cwe": "CWE-20"}

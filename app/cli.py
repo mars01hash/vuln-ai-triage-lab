@@ -4,6 +4,7 @@ import argparse
 import json
 from pathlib import Path
 
+from app.audit.audit_logger import write_audit_log
 from app.ingestion.adapters import parse_generic_findings
 from app.pipeline import TriagePipeline
 from app.reporting.report_writer import write_markdown_report
@@ -31,6 +32,7 @@ def main() -> None:
     parser.add_argument("--report", default=None, help="Optional Markdown batch report path")
     parser.add_argument("--use-llm", action="store_true", help="Use optional OpenAI LLM agent. Falls back locally if unavailable.")
     parser.add_argument("--llm-model", default="gpt-4o-mini", help="OpenAI model name for optional LLM triage")
+    parser.add_argument("--audit-log", default=None, help="Optional append-only JSONL audit log path")
     args = parser.parse_args()
 
     payload = json.loads(Path(args.input).read_text(encoding="utf-8"))
@@ -59,6 +61,10 @@ def main() -> None:
     if args.report:
         write_markdown_report(results, args.report)
         print(f"Saved Markdown report to {args.report}")
+
+    if args.audit_log:
+        summary = write_audit_log(results, args.audit_log)
+        print("Saved audit log:", json.dumps(summary, ensure_ascii=False))
 
     if hasattr(memory, "summary"):
         print("Memory summary:", json.dumps(memory.summary(), ensure_ascii=False))

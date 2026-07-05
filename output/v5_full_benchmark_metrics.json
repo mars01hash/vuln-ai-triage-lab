@@ -1,0 +1,16 @@
+{
+  "mode": "ml",
+  "total_findings": 9,
+  "source_counts": {
+    "SAST": 4,
+    "DAST": 3,
+    "SCA": 2
+  },
+  "cwe_accuracy": 1.0,
+  "cwe_macro_f1": 1.0,
+  "priority_rank_accuracy": 1.0,
+  "waf_false_positive_rate": 0.0,
+  "llm_json_validity_proxy": 1.0,
+  "deduplication_groups_detected": 1,
+  "errors": []
+}

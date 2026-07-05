@@ -3,6 +3,7 @@ from __future__ import annotations
 from fastapi import FastAPI, Query
 
 from app.feedback.feedback_store import FeedbackStore
+from app.mcp.tool_contracts import list_tool_contracts
 from app.pipeline import TriagePipeline
 from app.scanners.common import read_json
 from app.scanners.dependency_check_adapter import parse_dependency_check_results
@@ -13,8 +14,8 @@ from app.storage.sqlite_vector_memory import SqliteVulnerabilityMemory
 
 app = FastAPI(
     title="Vulnerability AI Triage Lab",
-    version="4.0.0",
-    description="v4 AppSec AI pipeline with scanner adapters, ML CWE normalization, vector-style memory, optional LLM triage, feedback logging, benchmark support, and WAF policy gates.",
+    version="5.0.0",
+    description="v5 AppSec AI pipeline with scanner adapters, ML CWE normalization, vector-style memory, optional LLM triage, feedback logging, benchmark support, and WAF policy gates.",
 )
 
 # Persistent local vector memory for the API process.
@@ -36,7 +37,7 @@ def _build_pipeline(use_ml: bool, use_llm: bool, llm_model: str) -> TriagePipeli
 def root() -> dict[str, str]:
     return {
         "name": "vuln-ai-triage-lab",
-        "version": "4.0.0",
+        "version": "5.0.0",
         "docs": "/docs",
         "message": "Use POST /triage, /triage/batch, or /demo/scanner-fixtures/triage. Optional flags: ?use_ml=true&use_llm=true",
     }
@@ -98,3 +99,9 @@ def add_feedback(feedback: TriageFeedback) -> dict[str, object]:
 @app.get("/feedback/summary")
 def feedback_summary() -> dict[str, object]:
     return feedback_store.summary()
+
+
+@app.get("/mcp/tool-contracts")
+def mcp_tool_contracts() -> list[dict]:
+    """Return local MCP-style tool contracts for agent/tool integration demos."""
+    return list_tool_contracts()

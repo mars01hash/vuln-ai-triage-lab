@@ -12,6 +12,7 @@ from app.reachability.reachability_gate import evaluate_reachability
 from app.scoring.bayesian_score import calculate_priority_score
 from app.schemas import NormalizedFinding, VulnerabilityFinding
 from app.storage.memory_store import VulnerabilityMemory
+from app.threat_intel.enrichment import enrich_finding_with_threat_intel
 from app.waf.waf_gate import build_waf_rule_proposal
 
 
@@ -53,6 +54,8 @@ class TriagePipeline:
 
     def process_one(self, finding: VulnerabilityFinding) -> NormalizedFinding:
         canonical_cwe, cwe_name, cwe_confidence, evidence = self._classify(finding)
+        threat_signal = enrich_finding_with_threat_intel(finding, canonical_cwe)
+        evidence = [*evidence, f"Threat intel: {threat_signal.get('reason', 'no signal')}"]
         entities = extract_entities(finding, canonical_cwe)
         reachable, reachability_reason = evaluate_reachability(finding)
         duplicate_group_id, duplicate_of, similarity = self.memory.find_or_add(finding, canonical_cwe)

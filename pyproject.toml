@@ -1,6 +1,6 @@
 [project]
 name = "vuln-ai-triage-lab"
-version = "0.4.0"
+version = "0.5.0"
 description = "v4 AppSec AI triage lab with scanner adapters, demo vulnerable app, dashboard, benchmark, ML, vector memory, optional LLM, feedback, and WAF policy gates"
 requires-python = ">=3.10"
 dependencies = [

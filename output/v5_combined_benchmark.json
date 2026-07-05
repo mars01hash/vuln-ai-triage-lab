@@ -1,0 +1,122 @@
+{
+  "v5_summary": {
+    "benchmark_mode": "ml",
+    "production_readiness_note": "Small offline fixtures only. Replace with historical scanner data before claiming production performance."
+  },
+  "triage_benchmark": {
+    "mode": "ml",
+    "total_findings": 9,
+    "source_counts": {
+      "SAST": 4,
+      "DAST": 3,
+      "SCA": 2
+    },
+    "cwe_accuracy": 1.0,
+    "cwe_macro_f1": 1.0,
+    "priority_rank_accuracy": 1.0,
+    "waf_false_positive_rate": 0.0,
+    "llm_json_validity_proxy": 1.0,
+    "deduplication_groups_detected": 1,
+    "errors": []
+  },
+  "cwe_calibration": {
+    "accuracy": 1.0,
+    "macro_f1": 1.0,
+    "brier_score_multiclass": 0.4071,
+    "expected_calibration_error": 0.5972,
+    "mean_confidence": 0.4028,
+    "reliability_bins": [
+      {
+        "bin_low": 0.0,
+        "bin_high": 0.2,
+        "count": 1,
+        "accuracy": 1.0,
+        "confidence": 0.1519,
+        "gap": 0.8481
+      },
+      {
+        "bin_low": 0.2,
+        "bin_high": 0.4,
+        "count": 1,
+        "accuracy": 1.0,
+        "confidence": 0.3495,
+        "gap": 0.6505
+      },
+      {
+        "bin_low": 0.4,
+        "bin_high": 0.6,
+        "count": 4,
+        "accuracy": 1.0,
+        "confidence": 0.4284,
+        "gap": 0.5716
+      },
+      {
+        "bin_low": 0.6,
+        "bin_high": 0.8,
+        "count": 1,
+        "accuracy": 1.0,
+        "confidence": 0.6045,
+        "gap": 0.3955
+      },
+      {
+        "bin_low": 0.8,
+        "bin_high": 1.0,
+        "count": 0,
+        "accuracy": 0.0,
+        "confidence": 0.0,
+        "gap": 0.0
+      }
+    ],
+    "examples": [
+      {
+        "finding_id": "SAST-001",
+        "expected_cwe": "CWE-89",
+        "predicted_cwe": "CWE-89",
+        "confidence": 0.4187,
+        "correct": true
+      },
+      {
+        "finding_id": "SAST-002",
+        "expected_cwe": "CWE-798",
+        "predicted_cwe": "CWE-798",
+        "confidence": 0.4245,
+        "correct": true
+      },
+      {
+        "finding_id": "SAST-003",
+        "expected_cwe": "CWE-79",
+        "predicted_cwe": "CWE-79",
+        "confidence": 0.1519,
+        "correct": true
+      },
+      {
+        "finding_id": "DAST-001",
+        "expected_cwe": "CWE-89",
+        "predicted_cwe": "CWE-89",
+        "confidence": 0.4083,
+        "correct": true
+      },
+      {
+        "finding_id": "DAST-002",
+        "expected_cwe": "CWE-79",
+        "predicted_cwe": "CWE-79",
+        "confidence": 0.3495,
+        "correct": true
+      },
+      {
+        "finding_id": "SCA-001",
+        "expected_cwe": "CWE-20",
+        "predicted_cwe": "CWE-20",
+        "confidence": 0.4622,
+        "correct": true
+      },
+      {
+        "finding_id": "SCA-002",
+        "expected_cwe": "CWE-22",
+        "predicted_cwe": "CWE-22",
+        "confidence": 0.6045,
+        "correct": true
+      }
+    ]
+  }
+}

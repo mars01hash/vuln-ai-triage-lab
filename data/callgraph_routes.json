@@ -1,0 +1,9 @@
+{
+  "routes": [
+    {"endpoint": "/api/orders", "entrypoint": "orders", "file_path_contains": "app.py", "functions": ["orders", "execute_query"], "reachable": true},
+    {"endpoint": "/search", "entrypoint": "search", "file_path_contains": "app.py", "functions": ["search"], "reachable": true},
+    {"endpoint": "/download", "entrypoint": "download", "file_path_contains": "app.py", "functions": ["download"], "reachable": true},
+    {"endpoint": "/admin", "entrypoint": "admin", "file_path_contains": "app.py", "functions": ["admin"], "reachable": true}
+  ],
+  "unreachable_files": ["tests/", "examples/", "dead_code.py", "legacy_unused.py"]
+}
