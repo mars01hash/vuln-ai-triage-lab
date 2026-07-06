@@ -94,8 +94,8 @@ Here is the structured technology stack used in the project:
 | **Data Manipulation** | Pandas & NumPy | Used for matrix manipulation, Expected Calibration Error (ECE) bins, and accuracy calculations | [app/ml/calibration.py](app/ml/calibration.py) |
 | **LLM Client Interface** | OpenAI API / Sentence-Transformers | Communicates with `gpt-4o-mini` for triage and encodes semantic representations using HuggingFace encoders | [app/agents/llm_agent.py](app/agents/llm_agent.py) / [app/embeddings/providers.py](app/embeddings/providers.py) |
 | **Agent Workflows** | LangGraph *(Advanced)* | Optional state-machine orchestration framework for complex multi-agent execution flows | [requirements-advanced.txt](requirements-advanced.txt) |
-| **Vitals & Monitoring** | MLflow & Evidently | Optional tools for tracking ML experiments, drift metrics, and model degradation | [requirements-advanced.txt](requirements-advanced.txt) |
-| **Testing Framework** | pytest | Executes backend test suites to verify adapter parsers, scorer weights, and custom encoder mock checks | [pyproject.toml](pyproject.toml) |
+| **Vitals & Monitoring** | MLflow & Evidently | Experiment tracking for model training metrics and parameters, plus data drift telemetry | [app/ml/train_cwe_classifier.py](app/ml/train_cwe_classifier.py) / [requirements-advanced.txt](requirements-advanced.txt) |
+| **Testing Framework** | pytest | Executes backend test suites to verify adapter parsers, scorer weights, custom encoder mock checks, and MLflow logging | [pyproject.toml](pyproject.toml) |
 | **Static Documentation** | MkDocs & Material | Serves the project architecture and setup documentation pages | [mkdocs.yml](mkdocs.yml) |
 | **Containerization** | Docker & Compose | Bundles and runs the dashboard, API, and target demo application in isolated environments | [Dockerfile](Dockerfile) / [docker-compose.yml](docker-compose.yml) |
 
@@ -110,7 +110,7 @@ Here is the structured technology stack used in the project:
 | **Vulnerability Memory & Retrieval** | Vector databases and embedding retrieval for long-term organizational memory and deduplication. | • SQLite vector-like persistent store<br>• ChromaDB integration<br>• Custom deterministic Hashed Embeddings<br>• Neural SentenceTransformers | • [sqlite_vector_memory.py](app/storage/sqlite_vector_memory.py)<br>• [chroma_memory_store.py](app/storage/chroma_memory_store.py)<br>• [providers.py](app/embeddings/providers.py) |
 | **Reachability Analysis** | Reachability gates filtering SAST findings through callgraph/data-flow to reduce noise. | • Simulated static callgraph mapping<br>• File path & route mapping gates | • [reachability_gate.py](app/reachability/reachability_gate.py)<br>• [callgraph_reachability.py](app/reachability/callgraph_reachability.py) |
 | **Agentic AI & Remediation** | Multi-step triage agent, structured output prompting, MCP server contracts, and WAF patch proposal. | • OpenAI JSON response format structures<br>• MCP-style tool JSON schema contracts<br>• ModSecurity WAF patch proposals<br>• Hard approval gates at system levels | • [llm_agent.py](app/agents/llm_agent.py)<br>• [tool_contracts.py](app/mcp/tool_contracts.py)<br>• [waf_gate.py](app/waf/waf_gate.py)<br>• [approval_policy.py](app/policy/approval_policy.py) |
-| **ML Operations (MLOps)** | Human feedback loops, retraining datasets, experiment logs, and audit logs. | • Corrective actions feedback merger<br>• Append-only JSONL decision loggers<br>• MLflow & Evidently tracking setup | • [build_training_set.py](app/feedback/build_training_set.py)<br>• [audit_logger.py](app/audit/audit_logger.py)<br>• [requirements-advanced.txt](requirements-advanced.txt) |
+| **ML Operations (MLOps)** | Human feedback loops, retraining datasets, experiment logs, and audit logs. | • MLflow Experiment Tracking (v7.0 Upgrade)<br>• Corrective actions feedback merger<br>• Append-only JSONL decision loggers<br>• Evidently data drift analysis | • [train_cwe_classifier.py](app/ml/train_cwe_classifier.py)<br>• [build_training_set.py](app/feedback/build_training_set.py)<br>• [audit_logger.py](app/audit/audit_logger.py) |
 | **AppSec Domain Knowledge** | OWASP Top 10, CWE taxonomy, and schema inconsistencies across SAST, DAST, and SCA. | • Dedicated adapters for Semgrep (SAST), OWASP ZAP (DAST), and Dependency-Check (SCA) parsing to common schemas. | • [app/scanners/](app/scanners/) |
 
 ---
@@ -118,7 +118,7 @@ Here is the structured technology stack used in the project:
 ## Quick Start
 
 ```bash
-cd vuln-ai-triage-lab-v6
+cd vuln-ai-triage-lab-v7
 python -m venv .venv
 ```
 
