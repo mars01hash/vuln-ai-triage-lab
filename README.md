@@ -73,6 +73,31 @@ Audit log / feedback loop / API / dashboard / reports / benchmark
 
 ---
 
+## Tech Stack
+
+Here is the structured technology stack used in the project:
+
+| Layer / Component | Technology / Library | Purpose & Description | Key Implementation Reference |
+| :--- | :--- | :--- | :--- |
+| **Core Language** | Python (>= 3.10) | Main runtime environment and source code language | Whole Project |
+| **Web Framework & API** | FastAPI | Exposes high-performance asynchronous REST endpoints for triage, feedback, and MCP tools | [app/main.py](app/main.py) |
+| **ASGI Server** | Uvicorn | Serves the FastAPI web server locally | Run scripts & CLI commands |
+| **GUI Dashboard** | Streamlit | Powers the neon-themed SecOps Cockpit UI console for telemetry, diagnostics, and human feedback | [app/dashboard/streamlit_app.py](app/dashboard/streamlit_app.py) |
+| **Schema Validation** | Pydantic (v2) | Enforces strict validation and schemas for security scanner findings and triage outputs | [app/schemas.py](app/schemas.py) |
+| **Primary Vector Storage** | SQLite | Default local, lightweight persistent database storing vulnerability logs and vectorized representation | [app/storage/sqlite_vector_memory.py](app/storage/sqlite_vector_memory.py) |
+| **Advanced Vector DB** | ChromaDB *(Advanced)* | High-performance, production-grade vector database implementation | [app/storage/chroma_memory_store.py](app/storage/chroma_memory_store.py) |
+| **Machine Learning** | Scikit-Learn | Powers the TF-IDF feature extraction pipeline and the Logistic Regression CWE classification model | [app/ml/train_cwe_classifier.py](app/ml/train_cwe_classifier.py) |
+| **Model Serialization** | Joblib | Saves and loads the trained Scikit-Learn classifiers | [app/ml/cwe_ml_classifier.py](app/ml/cwe_ml_classifier.py) |
+| **Data Manipulation** | Pandas & NumPy | Used for matrix manipulation, Expected Calibration Error (ECE) bins, and accuracy calculations | [app/ml/calibration.py](app/ml/calibration.py) |
+| **LLM Client Interface** | OpenAI API | Communicates with `gpt-4o-mini` to request structured JSON triage explanations and remediation plans | [app/agents/llm_agent.py](app/agents/llm_agent.py) |
+| **Agent Workflows** | LangGraph *(Advanced)* | Optional state-machine orchestration framework for complex multi-agent execution flows | [requirements-advanced.txt](requirements-advanced.txt) |
+| **Vitals & Monitoring** | MLflow & Evidently | Optional tools for tracking ML experiments, drift metrics, and model degradation | [requirements-advanced.txt](requirements-advanced.txt) |
+| **Testing Framework** | pytest | Executes backend test suites to verify adapter parsers, scorer weights, and gates | [pyproject.toml](pyproject.toml) |
+| **Static Documentation** | MkDocs & Material | Serves the project architecture and setup documentation pages | [mkdocs.yml](mkdocs.yml) |
+| **Containerization** | Docker & Compose | Bundles and runs the dashboard, API, and target demo application in isolated environments | [Dockerfile](Dockerfile) / [docker-compose.yml](docker-compose.yml) |
+
+---
+
 ## Quick Start
 
 ```bash
