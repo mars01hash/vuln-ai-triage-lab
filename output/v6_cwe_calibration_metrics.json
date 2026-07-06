@@ -1,0 +1,100 @@
+{
+  "accuracy": 1.0,
+  "macro_f1": 1.0,
+  "brier_score_multiclass": 0.3089,
+  "expected_calibration_error": 0.518,
+  "mean_confidence": 0.482,
+  "reliability_bins": [
+    {
+      "bin_low": 0.0,
+      "bin_high": 0.2,
+      "count": 0,
+      "accuracy": 0.0,
+      "confidence": 0.0,
+      "gap": 0.0
+    },
+    {
+      "bin_low": 0.2,
+      "bin_high": 0.4,
+      "count": 1,
+      "accuracy": 1.0,
+      "confidence": 0.351,
+      "gap": 0.649
+    },
+    {
+      "bin_low": 0.4,
+      "bin_high": 0.6,
+      "count": 4,
+      "accuracy": 1.0,
+      "confidence": 0.4423,
+      "gap": 0.5577
+    },
+    {
+      "bin_low": 0.6,
+      "bin_high": 0.8,
+      "count": 2,
+      "accuracy": 1.0,
+      "confidence": 0.6267,
+      "gap": 0.3733
+    },
+    {
+      "bin_low": 0.8,
+      "bin_high": 1.0,
+      "count": 0,
+      "accuracy": 0.0,
+      "confidence": 0.0,
+      "gap": 0.0
+    }
+  ],
+  "examples": [
+    {
+      "finding_id": "SAST-001",
+      "expected_cwe": "CWE-89",
+      "predicted_cwe": "CWE-89",
+      "confidence": 0.4345,
+      "correct": true
+    },
+    {
+      "finding_id": "SAST-002",
+      "expected_cwe": "CWE-798",
+      "predicted_cwe": "CWE-798",
+      "confidence": 0.6044,
+      "correct": true
+    },
+    {
+      "finding_id": "SAST-003",
+      "expected_cwe": "CWE-79",
+      "predicted_cwe": "CWE-79",
+      "confidence": 0.4046,
+      "correct": true
+    },
+    {
+      "finding_id": "DAST-001",
+      "expected_cwe": "CWE-89",
+      "predicted_cwe": "CWE-89",
+      "confidence": 0.4914,
+      "correct": true
+    },
+    {
+      "finding_id": "DAST-002",
+      "expected_cwe": "CWE-79",
+      "predicted_cwe": "CWE-79",
+      "confidence": 0.649,
+      "correct": true
+    },
+    {
+      "finding_id": "SCA-001",
+      "expected_cwe": "CWE-20",
+      "predicted_cwe": "CWE-20",
+      "confidence": 0.4388,
+      "correct": true
+    },
+    {
+      "finding_id": "SCA-002",
+      "expected_cwe": "CWE-22",
+      "predicted_cwe": "CWE-22",
+      "confidence": 0.351,
+      "correct": true
+    }
+  ]
+}

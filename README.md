@@ -1,15 +1,16 @@
-# Vulnerability AI Triage Lab v6.0
+# Vulnerability AI Triage Lab v7.0
 
 A runnable AppSec AI portfolio project that ingests scanner findings, normalizes them to CWE, deduplicates similar issues with vector-style memory, scores priority with explainable evidence, generates triage/fix recommendations, and enforces WAF/human-approval safety gates.
 
-**v6 introduces deep semantic classification using Sentence-Transformers embeddings.**
+**v7 introduces MLflow Experiment Tracking for model parameter auditing and F1-score evaluation metrics.**
 
 ---
 
-## What v6 Adds
+## What v7 Adds
 
 | Feature | Status |
 |---|---|
+| **MLflow Experiment Tracking** | Centralized logs for accuracy/F1 metrics, parameters, and serialized joblib model artifacts |
 | **Sentence-Transformers Classifier** | Upgrade from TF-IDF keyword counting to deep semantic embeddings (`all-MiniLM-L6-v2`) |
 | **Dynamic Serialization & Lazy-Loading** | Custom state pickling keeps saved model footprint small (~20KB) and loads PyTorch dynamically |
 | **Elastic Pipeline CLI Flags** | `--encoder` (`tfidf`/`embeddings`) and `--embedding-model` arguments |
@@ -19,9 +20,9 @@ A runnable AppSec AI portfolio project that ingests scanner findings, normalizes
 | **Audit log** | CLI can write append-only JSONL decision records |
 | **Feedback-to-training loop** | Human feedback can generate augmented CWE training data |
 | **MCP-style tool contracts** | Local contracts for future MCP server/tool integration |
-| **v6 architecture documentation** | `doc/v6.0_explanation.md` / `doc/updates_v6_to_v6.md` |
+| **v7 architecture documentation** | `doc/v7.0_explanation.md` / `doc/updates_v6_to_v7.md` |
 
-v6 keeps all prior features: scanner adapters, vulnerable demo app, Streamlit dashboard, FastAPI API, Docker Compose, ML classifier, SQLite memory, WAF safety gate, and tests.
+v7 keeps all prior features: scanner adapters, vulnerable demo app, Streamlit dashboard, FastAPI API, Docker Compose, ML classifier, SQLite memory, WAF safety gate, and tests.
 
 ---
 
@@ -141,8 +142,24 @@ pip install -r requirements.txt
 
 Train the ML CWE classifier:
 
+**Using TF-IDF (default):**
 ```bash
-python -m app.ml.train_cwe_classifier --input data/cwe_training_findings.jsonl --output models/cwe_tfidf_logreg.joblib --metrics output/cwe_training_metrics.json
+python -m app.ml.train_cwe_classifier --input data/cwe_training_findings.jsonl --output models/cwe_tfidf_logreg.joblib --metrics output/cwe_training_metrics.json --encoder tfidf
+```
+
+**Using Sentence-Transformers Embeddings:**
+```bash
+python -m app.ml.train_cwe_classifier --input data/cwe_training_findings.jsonl --output models/cwe_tfidf_logreg.joblib --metrics output/cwe_training_metrics.json --encoder embeddings
+```
+
+**Using Embeddings + MLflow Experiment Tracking:**
+```bash
+python -m app.ml.train_cwe_classifier --input data/cwe_training_findings.jsonl --output models/cwe_tfidf_logreg.joblib --metrics output/cwe_training_metrics.json --encoder embeddings --mlflow --mlflow-experiment "CWE_Classifier_Triage"
+```
+
+To view the tracking dashboard, start the MLflow server:
+```bash
+mlflow ui
 ```
 
 Generate canonical findings from scanner fixtures:

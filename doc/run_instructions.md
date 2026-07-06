@@ -16,6 +16,14 @@
   ```bash
   python -m app.ml.train_cwe_classifier --encoder embeddings
   ```
+* **MLflow এক্সপেরিমেন্ট ট্র্যাকিং সহ ট্রেনিং রান করার কমান্ড:**
+  ```bash
+  python -m app.ml.train_cwe_classifier --encoder embeddings --mlflow --mlflow-experiment "CWE_Classifier_Triage"
+  ```
+* **MLflow ড্যাশবোর্ড ইন্টারফেস চালু করার কমান্ড:**
+  ```bash
+  mlflow ui
+  ```
 * **স্ক্যানার ইন্টিগ্রেশন ফাইল একত্রিত করার কমান্ড:**
   ```bash
   python -m app.scanners.run_all --output output/scanner_findings_all.json

@@ -1,5 +1,6 @@
 -r requirements.txt
 sentence-transformers>=2.7.0
+tf-keras
 chromadb>=0.5.0
 openai>=1.40.0
 langgraph>=0.2.0
