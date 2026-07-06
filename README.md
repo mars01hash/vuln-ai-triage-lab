@@ -19,7 +19,7 @@ A runnable AppSec AI portfolio project that ingests scanner findings, normalizes
 | **Audit log** | CLI can write append-only JSONL decision records |
 | **Feedback-to-training loop** | Human feedback can generate augmented CWE training data |
 | **MCP-style tool contracts** | Local contracts for future MCP server/tool integration |
-| **v6 architecture documentation** | `doc/v6.0_explanation.md` / `doc/updates_v5_to_v6.md` |
+| **v6 architecture documentation** | `doc/v6.0_explanation.md` / `doc/updates_v6_to_v6.md` |
 
 v6 keeps all prior features: scanner adapters, vulnerable demo app, Streamlit dashboard, FastAPI API, Docker Compose, ML classifier, SQLite memory, WAF safety gate, and tests.
 
@@ -29,7 +29,7 @@ v6 keeps all prior features: scanner adapters, vulnerable demo app, Streamlit da
 
 The interactive Streamlit dashboard is designed as a real SecOps hacking console terminal, featuring custom neon-styled telemetry plots and a military-cockpit style vulnerability debugger.
 
-![Triage Dashboard Console GIF](screenshots/VULN_AI_TRIAGE__TERMINAL_V5.gif)
+![Triage Dashboard Console GIF](screenshots/VULN_AI_TRIAGE__TERMINAL_v6.gif)
 
 ### Core Operational Cockpit Views
 
@@ -117,7 +117,7 @@ Here is the structured technology stack used in the project:
 ## Quick Start
 
 ```bash
-cd vuln-ai-triage-lab-v5
+cd vuln-ai-triage-lab-v6
 python -m venv .venv
 ```
 
@@ -151,34 +151,34 @@ Generate canonical findings from scanner fixtures:
 python -m app.scanners.run_all --output output/scanner_findings_all.json
 ```
 
-Run the v5 AI pipeline with audit logging:
+Run the v6 AI pipeline with audit logging:
 
 ```bash
-python -m app.cli --input output/scanner_findings_all.json --use-ml --memory-backend sqlite --memory-file output/v5_memory.sqlite --output output/v5_results_ml.json --report output/v5_report_ml.md --audit-log output/v5_audit_log.jsonl --pretty
+python -m app.cli --input output/scanner_findings_all.json --use-ml --memory-backend sqlite --memory-file output/v6_memory.sqlite --output output/v6_results_ml.json --report output/v6_report_ml.md --audit-log output/v6_audit_log.jsonl --pretty
 ```
 
-Run the v5 calibration report:
+Run the v6 calibration report:
 
 ```bash
-python -m app.evaluation.model_calibration --input data/sample_findings_all.json --labels data/eval_labeled_findings.json --output output/v5_cwe_calibration_metrics.json --report output/v5_cwe_calibration_report.md
+python -m app.evaluation.model_calibration --input data/sample_findings_all.json --labels data/eval_labeled_findings.json --output output/v6_cwe_calibration_metrics.json --report output/v6_cwe_calibration_report.md
 ```
 
-Run the combined v5 benchmark:
+Run the combined v6 benchmark:
 
 ```bash
-python -m app.evaluation.full_benchmark_v5 --use-ml --output output/v5_full_benchmark_metrics.json --report output/v5_full_benchmark_report.md
+python -m app.evaluation.full_benchmark_v6 --use-ml --output output/v6_full_benchmark_metrics.json --report output/v6_full_benchmark_report.md
 ```
 
-Run all v5 demo steps:
+Run all v6 demo steps:
 
 ```bash
-bash scripts/run_v5_demo.sh
+bash scripts/run_v6_demo.sh
 ```
 
 On Windows:
 
 ```bat
-scripts\run_v5_demo.bat
+scripts\run_v6_demo.bat
 ```
 
 ---
@@ -216,7 +216,7 @@ First create scanner findings:
 
 ```bash
 python -m app.scanners.run_all --output output/scanner_findings_all.json
-python -m app.cli --input output/scanner_findings_all.json --use-ml --output output/v5_results_ml.json --pretty
+python -m app.cli --input output/scanner_findings_all.json --use-ml --output output/v6_results_ml.json --pretty
 ```
 
 Then run:
@@ -235,7 +235,7 @@ http://localhost:8501
 
 ## Calibration Metrics
 
-v5 adds model-confidence evaluation:
+v6 adds model-confidence evaluation:
 
 | Metric | Why it matters |
 |---|---|
@@ -253,7 +253,7 @@ v5 adds model-confidence evaluation:
 After collecting feedback through the API, convert corrected feedback into training data:
 
 ```bash
-python -m app.feedback.build_training_set --base data/cwe_training_findings.jsonl --results output/v5_results_ml.json --feedback output/api_human_feedback.jsonl --output output/cwe_training_augmented_from_feedback.jsonl
+python -m app.feedback.build_training_set --base data/cwe_training_findings.jsonl --results output/v6_results_ml.json --feedback output/api_human_feedback.jsonl --output output/cwe_training_augmented_from_feedback.jsonl
 ```
 
 Then retrain:
@@ -337,7 +337,7 @@ pytest
 ## Explanation
 
 
-> Designed the system as a modular vulnerability intelligence pipeline. Scanner adapters isolate schema inconsistencies from SAST, DAST, and SCA tools. The canonical schema feeds CWE normalization, threat-intelligence enrichment, entity extraction, deduplication, reachability checks, and explainable priority scoring. The triage agent generates human-readable guidance, but safety-sensitive actions like WAF rule eligibility are enforced by deterministic code outside the LLM. v5 adds calibration metrics, audit logs, and a feedback-to-training loop so the project demonstrates not only modeling but evaluation and governance discipline.
+> Designed the system as a modular vulnerability intelligence pipeline. Scanner adapters isolate schema inconsistencies from SAST, DAST, and SCA tools. The canonical schema feeds CWE normalization, threat-intelligence enrichment, entity extraction, deduplication, reachability checks, and explainable priority scoring. The triage agent generates human-readable guidance, but safety-sensitive actions like WAF rule eligibility are enforced by deterministic code outside the LLM. v6 adds calibration metrics, audit logs, and a feedback-to-training loop so the project demonstrates not only modeling but evaluation and governance discipline.
 
 ---
 
@@ -352,7 +352,7 @@ pytest
 
 ---
 
-## Recommended v6 Direction
+## Recommended v7 Direction
 
 - Replace TF-IDF classifier with fine-tuned Transformer / CodeBERT.
 - Use Qdrant or pgvector as default vector DB.

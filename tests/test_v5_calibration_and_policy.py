@@ -114,3 +114,35 @@ def test_sentence_transformer_encoder_serialization(tmp_path: Path):
     finally:
         if "sentence_transformers" in sys.modules:
             del sys.modules["sentence_transformers"]
+
+
+def test_train_classifier_logs_to_mlflow(tmp_path: Path):
+    import sys
+    from unittest.mock import MagicMock
+    from app.ml.train_cwe_classifier import train_classifier
+
+    mock_mlflow = MagicMock()
+    mock_mlflow.active_run.return_value = None
+    sys.modules["mlflow"] = mock_mlflow
+
+    try:
+        model_path = tmp_path / "model.joblib"
+        metrics_path = tmp_path / "metrics.json"
+
+        train_classifier(
+            input_path="data/cwe_training_findings.jsonl",
+            output_path=model_path,
+            metrics_path=metrics_path,
+            use_mlflow=True,
+            encoder="tfidf",
+            mlflow_experiment="Test_Experiment"
+        )
+
+        mock_mlflow.set_experiment.assert_called_once_with("Test_Experiment")
+        mock_mlflow.start_run.assert_called_once()
+        mock_mlflow.log_param.assert_any_call("encoder_type", "tfidf")
+        mock_mlflow.log_metric.assert_any_call("accuracy", 1.0)
+        mock_mlflow.log_artifact.assert_called_once_with(str(model_path))
+    finally:
+        if "mlflow" in sys.modules:
+            del sys.modules["mlflow"]

@@ -67,6 +67,9 @@ def train_classifier(
     random_state: int = 42,
     encoder: str = "tfidf",
     embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2",
+    use_mlflow: bool = False,
+    mlflow_tracking_uri: str | None = None,
+    mlflow_experiment: str = "CWE_Classifier_Triage",
 ) -> dict[str, Any]:
     rows = load_jsonl(input_path)
     if not rows:
@@ -133,6 +136,36 @@ def train_classifier(
     metrics_path = Path(metrics_path)
     metrics_path.parent.mkdir(parents=True, exist_ok=True)
     metrics_path.write_text(json.dumps(metrics, indent=2), encoding="utf-8")
+
+    if use_mlflow:
+        try:
+            import mlflow
+            if mlflow_tracking_uri:
+                mlflow.set_tracking_uri(mlflow_tracking_uri)
+            mlflow.set_experiment(mlflow_experiment)
+
+            if mlflow.active_run() is None:
+                mlflow.start_run(run_name=f"cwe_{encoder}_classifier")
+
+            mlflow.log_param("encoder_type", encoder)
+            mlflow.log_param("embedding_model", embedding_model if encoder == "embeddings" else "N/A")
+            mlflow.log_param("test_size", test_size)
+            mlflow.log_param("random_state", random_state)
+            mlflow.log_param("training_rows", len(rows))
+            mlflow.log_param("train_rows", len(x_train))
+            mlflow.log_param("test_rows", len(x_test))
+
+            mlflow.log_metric("accuracy", float(accuracy))
+            mlflow.log_metric("macro_f1", float(report.get("macro avg", {}).get("f1-score", 0.0)))
+            mlflow.log_metric("weighted_f1", float(report.get("weighted avg", {}).get("f1-score", 0.0)))
+
+            mlflow.log_artifact(str(output_path))
+            print("Successfully logged run details to MLflow.")
+        except ImportError:
+            print("Warning: mlflow package is not installed. Skipping MLflow logging.")
+        except Exception as e:
+            print(f"Warning: Failed to log to MLflow: {e}")
+
     return metrics
 
 
@@ -144,6 +177,9 @@ def main() -> None:
     parser.add_argument("--test-size", type=float, default=0.25)
     parser.add_argument("--encoder", default="tfidf", choices=["tfidf", "embeddings"], help="Feature extraction method to use.")
     parser.add_argument("--embedding-model", default="sentence-transformers/all-MiniLM-L6-v2", help="Pre-trained embedding model name.")
+    parser.add_argument("--mlflow", action="store_true", help="Enable MLflow logging.")
+    parser.add_argument("--mlflow-tracking-uri", default=None, help="MLflow tracking URI.")
+    parser.add_argument("--mlflow-experiment", default="CWE_Classifier_Triage", help="MLflow experiment name.")
     args = parser.parse_args()
     metrics = train_classifier(
         args.input,
@@ -152,6 +188,9 @@ def main() -> None:
         args.test_size,
         encoder=args.encoder,
         embedding_model=args.embedding_model,
+        use_mlflow=args.mlflow,
+        mlflow_tracking_uri=args.mlflow_tracking_uri,
+        mlflow_experiment=args.mlflow_experiment,
     )
     print(json.dumps(metrics, indent=2))
 
