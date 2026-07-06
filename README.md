@@ -98,6 +98,20 @@ Here is the structured technology stack used in the project:
 
 ---
 
+## Alignment
+
+| Requirement / Domain | Key Criteria | Project Component & Tech Used | Key Implementation Reference |
+| :--- | :--- | :--- | :--- |
+| **NLP & CWE Normalization** | Classification, entity extraction, and vulnerability fingerprinting mapping schemas to CWE. | • TF-IDF + Logistic Regression<br>• Regex-based Entity Extraction<br>• Bag-of-words / Semantic similarity | • [train_cwe_classifier.py](app/ml/train_cwe_classifier.py)<br>• [cwe_classifier.py](app/normalization/cwe_classifier.py)<br>• [entity_extractor.py](app/normalization/entity_extractor.py) |
+| **Bayesian Scoring & Calibration** | Scoring systems calibrated rather than just ranked, using CVSS, reachability, exploit, and business context. | • Confidence-weighted scoring formula<br>• Multiclass Brier Score<br>• Expected Calibration Error (ECE)<br>• Reliability Bins Mapping | • [bayesian_score.py](app/scoring/bayesian_score.py)<br>• [calibration.py](app/ml/calibration.py) |
+| **Vulnerability Memory & Retrieval** | Vector databases and embedding retrieval for long-term organizational memory and deduplication. | • SQLite vector-like persistent store<br>• ChromaDB integration<br>• Custom deterministic Hashed Embeddings<br>• Neural SentenceTransformers | • [sqlite_vector_memory.py](app/storage/sqlite_vector_memory.py)<br>• [chroma_memory_store.py](app/storage/chroma_memory_store.py)<br>• [providers.py](app/embeddings/providers.py) |
+| **Reachability Analysis** | Reachability gates filtering SAST findings through callgraph/data-flow to reduce noise. | • Simulated static callgraph mapping<br>• File path & route mapping gates | • [reachability_gate.py](app/reachability/reachability_gate.py)<br>• [callgraph_reachability.py](app/reachability/callgraph_reachability.py) |
+| **Agentic AI & Remediation** | Multi-step triage agent, structured output prompting, MCP server contracts, and WAF patch proposal. | • OpenAI JSON response format structures<br>• MCP-style tool JSON schema contracts<br>• ModSecurity WAF patch proposals<br>• Hard approval gates at system levels | • [llm_agent.py](app/agents/llm_agent.py)<br>• [tool_contracts.py](app/mcp/tool_contracts.py)<br>• [waf_gate.py](app/waf/waf_gate.py)<br>• [approval_policy.py](app/policy/approval_policy.py) |
+| **ML Operations (MLOps)** | Human feedback loops, retraining datasets, experiment logs, and audit logs. | • Corrective actions feedback merger<br>• Append-only JSONL decision loggers<br>• MLflow & Evidently tracking setup | • [build_training_set.py](app/feedback/build_training_set.py)<br>• [audit_logger.py](app/audit/audit_logger.py)<br>• [requirements-advanced.txt](requirements-advanced.txt) |
+| **AppSec Domain Knowledge** | OWASP Top 10, CWE taxonomy, and schema inconsistencies across SAST, DAST, and SCA. | • Dedicated adapters for Semgrep (SAST), OWASP ZAP (DAST), and Dependency-Check (SCA) parsing to common schemas. | • [app/scanners/](app/scanners/) |
+
+---
+
 ## Quick Start
 
 ```bash
@@ -229,7 +243,6 @@ v5 adds model-confidence evaluation:
 | Expected Calibration Error | Measures whether confidence matches real correctness |
 | Reliability bins | Shows confidence bucket vs actual accuracy |
 
-This is important because the target job asks for **calibrated scoring**, not only ranking.
 
 ---
 
