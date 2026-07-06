@@ -4,31 +4,31 @@
 
 - Accuracy: **1.0**
 - Macro F1: **1.0**
-- Multiclass Brier score: **0.4071**
-- Expected Calibration Error: **0.5972**
-- Mean confidence: **0.4028**
+- Multiclass Brier score: **0.3089**
+- Expected Calibration Error: **0.518**
+- Mean confidence: **0.482**
 
 ## Reliability Bins
 
 | Confidence Bin | Count | Accuracy | Mean Confidence | Gap |
 |---|---:|---:|---:|---:|
-| 0.0-0.2 | 1 | 1.0 | 0.1519 | 0.8481 |
-| 0.2-0.4 | 1 | 1.0 | 0.3495 | 0.6505 |
-| 0.4-0.6 | 4 | 1.0 | 0.4284 | 0.5716 |
-| 0.6-0.8 | 1 | 1.0 | 0.6045 | 0.3955 |
+| 0.0-0.2 | 0 | 0.0 | 0.0 | 0.0 |
+| 0.2-0.4 | 1 | 1.0 | 0.351 | 0.649 |
+| 0.4-0.6 | 4 | 1.0 | 0.4423 | 0.5577 |
+| 0.6-0.8 | 2 | 1.0 | 0.6267 | 0.3733 |
 | 0.8-1.0 | 0 | 0.0 | 0.0 | 0.0 |
 
 ## Example Predictions
 
 | Finding | Expected | Predicted | Confidence | Correct |
 |---|---|---|---:|---|
-| SAST-001 | CWE-89 | CWE-89 | 0.4187 | True |
-| SAST-002 | CWE-798 | CWE-798 | 0.4245 | True |
-| SAST-003 | CWE-79 | CWE-79 | 0.1519 | True |
-| DAST-001 | CWE-89 | CWE-89 | 0.4083 | True |
-| DAST-002 | CWE-79 | CWE-79 | 0.3495 | True |
-| SCA-001 | CWE-20 | CWE-20 | 0.4622 | True |
-| SCA-002 | CWE-22 | CWE-22 | 0.6045 | True |
+| SAST-001 | CWE-89 | CWE-89 | 0.4345 | True |
+| SAST-002 | CWE-798 | CWE-798 | 0.6044 | True |
+| SAST-003 | CWE-79 | CWE-79 | 0.4046 | True |
+| DAST-001 | CWE-89 | CWE-89 | 0.4914 | True |
+| DAST-002 | CWE-79 | CWE-79 | 0.649 | True |
+| SCA-001 | CWE-20 | CWE-20 | 0.4388 | True |
+| SCA-002 | CWE-22 | CWE-22 | 0.351 | True |
 
 ## How to interpret this
 

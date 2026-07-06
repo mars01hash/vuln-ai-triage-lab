@@ -1,25 +1,27 @@
-# Vulnerability AI Triage Lab v5.0
+# Vulnerability AI Triage Lab v6.0
 
 A runnable AppSec AI portfolio project that ingests scanner findings, normalizes them to CWE, deduplicates similar issues with vector-style memory, scores priority with explainable evidence, generates triage/fix recommendations, and enforces WAF/human-approval safety gates.
 
-**v5 focuses on the senior-role gaps:** calibration, auditability, feedback loops, threat-intelligence enrichment, and reachability evidence.
+**v6 introduces deep semantic classification using Sentence-Transformers embeddings.**
 
 ---
 
-## What v5 Adds
+## What v6 Adds
 
 | Feature | Status |
 |---|---|
-| CWE calibration metrics | Accuracy, macro-F1, Brier score, ECE, confidence bins |
-| Threat-intelligence enrichment | Local exploit-likelihood fixture integrated into scoring evidence |
-| Callgraph-style reachability fixture | Simulates CodeQL/Joern integration contract without heavy dependencies |
-| Audit log | CLI can write append-only JSONL decision records |
-| Feedback-to-training loop | Human feedback can generate augmented CWE training data |
-| MCP-style tool contracts | Local contracts for future MCP server/tool integration |
-| v5 benchmark command | Full triage benchmark + optional calibration benchmark |
-| v5 architecture documentation | `reports/v5_architecture_design.md` |
+| **Sentence-Transformers Classifier** | Upgrade from TF-IDF keyword counting to deep semantic embeddings (`all-MiniLM-L6-v2`) |
+| **Dynamic Serialization & Lazy-Loading** | Custom state pickling keeps saved model footprint small (~20KB) and loads PyTorch dynamically |
+| **Elastic Pipeline CLI Flags** | `--encoder` (`tfidf`/`embeddings`) and `--embedding-model` arguments |
+| **CWE calibration metrics** | Accuracy, macro-F1, Brier score, ECE, confidence bins |
+| **Threat-intelligence enrichment** | Local exploit-likelihood fixture integrated into scoring evidence |
+| **Callgraph-style reachability fixture** | Simulates CodeQL/Joern integration contract without heavy dependencies |
+| **Audit log** | CLI can write append-only JSONL decision records |
+| **Feedback-to-training loop** | Human feedback can generate augmented CWE training data |
+| **MCP-style tool contracts** | Local contracts for future MCP server/tool integration |
+| **v6 architecture documentation** | `doc/v6.0_explanation.md` / `doc/updates_v5_to_v6.md` |
 
-v5 keeps all v4 features: scanner adapters, vulnerable demo app, Streamlit dashboard, FastAPI API, Docker Compose, ML classifier, SQLite memory, WAF safety gate, and tests.
+v6 keeps all prior features: scanner adapters, vulnerable demo app, Streamlit dashboard, FastAPI API, Docker Compose, ML classifier, SQLite memory, WAF safety gate, and tests.
 
 ---
 
@@ -86,13 +88,13 @@ Here is the structured technology stack used in the project:
 | **Schema Validation** | Pydantic (v2) | Enforces strict validation and schemas for security scanner findings and triage outputs | [app/schemas.py](app/schemas.py) |
 | **Primary Vector Storage** | SQLite | Default local, lightweight persistent database storing vulnerability logs and vectorized representation | [app/storage/sqlite_vector_memory.py](app/storage/sqlite_vector_memory.py) |
 | **Advanced Vector DB** | ChromaDB *(Advanced)* | High-performance, production-grade vector database implementation | [app/storage/chroma_memory_store.py](app/storage/chroma_memory_store.py) |
-| **Machine Learning** | Scikit-Learn | Powers the TF-IDF feature extraction pipeline and the Logistic Regression CWE classification model | [app/ml/train_cwe_classifier.py](app/ml/train_cwe_classifier.py) |
+| **Machine Learning** | Scikit-Learn | Powers the TF-IDF and Sentence-Transformers feature extraction pipeline along with the Logistic Regression CWE classification model | [app/ml/train_cwe_classifier.py](app/ml/train_cwe_classifier.py) |
 | **Model Serialization** | Joblib | Saves and loads the trained Scikit-Learn classifiers | [app/ml/cwe_ml_classifier.py](app/ml/cwe_ml_classifier.py) |
 | **Data Manipulation** | Pandas & NumPy | Used for matrix manipulation, Expected Calibration Error (ECE) bins, and accuracy calculations | [app/ml/calibration.py](app/ml/calibration.py) |
-| **LLM Client Interface** | OpenAI API | Communicates with `gpt-4o-mini` to request structured JSON triage explanations and remediation plans | [app/agents/llm_agent.py](app/agents/llm_agent.py) |
+| **LLM Client Interface** | OpenAI API / Sentence-Transformers | Communicates with `gpt-4o-mini` for triage and encodes semantic representations using HuggingFace encoders | [app/agents/llm_agent.py](app/agents/llm_agent.py) / [app/embeddings/providers.py](app/embeddings/providers.py) |
 | **Agent Workflows** | LangGraph *(Advanced)* | Optional state-machine orchestration framework for complex multi-agent execution flows | [requirements-advanced.txt](requirements-advanced.txt) |
 | **Vitals & Monitoring** | MLflow & Evidently | Optional tools for tracking ML experiments, drift metrics, and model degradation | [requirements-advanced.txt](requirements-advanced.txt) |
-| **Testing Framework** | pytest | Executes backend test suites to verify adapter parsers, scorer weights, and gates | [pyproject.toml](pyproject.toml) |
+| **Testing Framework** | pytest | Executes backend test suites to verify adapter parsers, scorer weights, and custom encoder mock checks | [pyproject.toml](pyproject.toml) |
 | **Static Documentation** | MkDocs & Material | Serves the project architecture and setup documentation pages | [mkdocs.yml](mkdocs.yml) |
 | **Containerization** | Docker & Compose | Bundles and runs the dashboard, API, and target demo application in isolated environments | [Dockerfile](Dockerfile) / [docker-compose.yml](docker-compose.yml) |
 
@@ -102,7 +104,7 @@ Here is the structured technology stack used in the project:
 
 | Requirement / Domain | Key Criteria | Project Component & Tech Used | Key Implementation Reference |
 | :--- | :--- | :--- | :--- |
-| **NLP & CWE Normalization** | Classification, entity extraction, and vulnerability fingerprinting mapping schemas to CWE. | • TF-IDF + Logistic Regression<br>• Regex-based Entity Extraction<br>• Bag-of-words / Semantic similarity | • [train_cwe_classifier.py](app/ml/train_cwe_classifier.py)<br>• [cwe_classifier.py](app/normalization/cwe_classifier.py)<br>• [entity_extractor.py](app/normalization/entity_extractor.py) |
+| **NLP & CWE Normalization** | Classification, entity extraction, and vulnerability fingerprinting mapping schemas to CWE. | • Sentence-Transformers Embeddings (Upgrade)<br>• TF-IDF + Logistic Regression (Fallback)<br>• Regex-based Entity Extraction<br>• Bag-of-words / Semantic similarity | • [train_cwe_classifier.py](app/ml/train_cwe_classifier.py)<br>• [cwe_classifier.py](app/normalization/cwe_classifier.py)<br>• [entity_extractor.py](app/normalization/entity_extractor.py) |
 | **Bayesian Scoring & Calibration** | Scoring systems calibrated rather than just ranked, using CVSS, reachability, exploit, and business context. | • Confidence-weighted scoring formula<br>• Multiclass Brier Score<br>• Expected Calibration Error (ECE)<br>• Reliability Bins Mapping | • [bayesian_score.py](app/scoring/bayesian_score.py)<br>• [calibration.py](app/ml/calibration.py) |
 | **Vulnerability Memory & Retrieval** | Vector databases and embedding retrieval for long-term organizational memory and deduplication. | • SQLite vector-like persistent store<br>• ChromaDB integration<br>• Custom deterministic Hashed Embeddings<br>• Neural SentenceTransformers | • [sqlite_vector_memory.py](app/storage/sqlite_vector_memory.py)<br>• [chroma_memory_store.py](app/storage/chroma_memory_store.py)<br>• [providers.py](app/embeddings/providers.py) |
 | **Reachability Analysis** | Reachability gates filtering SAST findings through callgraph/data-flow to reduce noise. | • Simulated static callgraph mapping<br>• File path & route mapping gates | • [reachability_gate.py](app/reachability/reachability_gate.py)<br>• [callgraph_reachability.py](app/reachability/callgraph_reachability.py) |

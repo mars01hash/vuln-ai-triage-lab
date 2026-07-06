@@ -8,9 +8,13 @@
 
 ক্লিন রান নিশ্চিত করতে প্রথমে মডেল ট্রেনিং এবং কাস্টম ফিক্সচার ফাইলগুলো একত্রিত করে একটি ক্যানোনিকাল জেসন পে-লোড তৈরি করতে হবে।
 
-* **মডেল ট্রেনিং রান করার কমান্ড:**
+* **মডেল ট্রেনিং রান করার কমান্ড (TF-IDF মোড):**
   ```bash
-  python -m app.ml.train_cwe_classifier
+  python -m app.ml.train_cwe_classifier --encoder tfidf
+  ```
+* **মডেল ট্রেনিং রান করার কমান্ড (Sentence-Transformers Embeddings মোড):**
+  ```bash
+  python -m app.ml.train_cwe_classifier --encoder embeddings
   ```
 * **স্ক্যানার ইন্টিগ্রেশন ফাইল একত্রিত করার কমান্ড:**
   ```bash
@@ -71,6 +75,14 @@ streamlit run app/dashboard/streamlit_app.py
 * **ML-based Mode Benchmark:**
   ```bash
   python -m app.evaluation.full_benchmark --use-ml --output output/full_benchmark_metrics_ml.json --report output/full_benchmark_report_ml.md
+  ```
+* **ML Calibration Diagnostics (v5/v6):**
+  ```bash
+  python -m app.evaluation.model_calibration --input data/sample_findings_all.json --labels data/eval_labeled_findings.json --output output/v5_cwe_calibration_metrics.json --report output/v5_cwe_calibration_report.md
+  ```
+* **Full Integration Benchmark (v5/v6):**
+  ```bash
+  python -m app.evaluation.full_benchmark_v5 --use-ml --output output/v5_full_benchmark_metrics.json --report output/v5_full_benchmark_report.md
   ```
 
 ---

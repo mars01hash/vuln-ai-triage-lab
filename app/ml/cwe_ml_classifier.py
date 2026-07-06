@@ -5,9 +5,46 @@ from pathlib import Path
 from typing import Any
 
 import joblib
+from sklearn.base import BaseEstimator, TransformerMixin
 
 from app.normalization.cwe_classifier import CWE_BY_ID, DEFAULT_CWE
 from app.schemas import VulnerabilityFinding
+
+
+class SentenceTransformerEncoder(BaseEstimator, TransformerMixin):
+    """Custom Scikit-Learn wrapper around SentenceTransformers.
+
+    Excludes the heavy PyTorch model weights from joblib pickling.
+    Loads the model lazily on demand during inference.
+    """
+
+    def __init__(self, model_name: str = "sentence-transformers/all-MiniLM-L6-v2"):
+        self.model_name = model_name
+        self.model = None
+
+    def fit(self, X: list[str], y: Any = None) -> SentenceTransformerEncoder:
+        return self
+
+    def transform(self, X: list[str]) -> Any:
+        if self.model is None:
+            try:
+                from sentence_transformers import SentenceTransformer
+            except ImportError as exc:
+                raise ImportError(
+                    "sentence-transformers is not installed. Install optional dependencies with: "
+                    "pip install -r requirements-advanced.txt"
+                ) from exc
+            self.model = SentenceTransformer(self.model_name)
+        return self.model.encode(X, show_progress_bar=False, normalize_embeddings=True)
+
+    def __getstate__(self) -> dict[str, Any]:
+        state = self.__dict__.copy()
+        state["model"] = None
+        return state
+
+    def __setstate__(self, state: dict[str, Any]) -> None:
+        self.__dict__.update(state)
+        self.model = None
 
 
 DEFAULT_MODEL_PATH = Path("models/cwe_tfidf_logreg.joblib")

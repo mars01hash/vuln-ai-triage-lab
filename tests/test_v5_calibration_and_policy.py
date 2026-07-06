@@ -59,3 +59,58 @@ def test_calibration_cli_function_outputs_metrics(tmp_path: Path):
     assert "expected_calibration_error" in metrics
     assert "brier_score_multiclass" in metrics
     assert isinstance(metrics["reliability_bins"], list)
+
+
+def test_sentence_transformer_encoder_serialization(tmp_path: Path):
+    import sys
+    from unittest.mock import MagicMock
+    from sklearn.linear_model import LogisticRegression
+
+    from app.ml.cwe_ml_classifier import SentenceTransformerEncoder
+
+    # Mock sentence_transformers library
+    mock_model = MagicMock()
+    mock_model.encode.return_value = [[0.1, 0.2, 0.3], [0.4, 0.5, 0.6]]
+    mock_st_class = MagicMock(return_value=mock_model)
+
+    mock_module = MagicMock()
+    mock_module.SentenceTransformer = mock_st_class
+    sys.modules["sentence_transformers"] = mock_module
+
+    try:
+        encoder = SentenceTransformerEncoder(model_name="mock-model")
+        X = ["text one", "text two"]
+        encoder.fit(X)
+        res = encoder.transform(X)
+
+        assert len(res) == 2
+        assert len(res[0]) == 3
+        mock_st_class.assert_called_once_with("mock-model")
+        mock_model.encode.assert_called_once_with(X, show_progress_bar=False, normalize_embeddings=True)
+
+        from sklearn.pipeline import Pipeline
+        pipe = Pipeline([
+            ("encoder", encoder),
+            ("clf", LogisticRegression())
+        ])
+        pipe.fit(X, [0, 1])
+
+        # Verify joblib serialization
+        model_path = tmp_path / "mock_model.joblib"
+        import joblib
+        joblib.dump(pipe, model_path)
+
+        # Check that file size is small (no heavy weights serialized)
+        assert model_path.stat().st_size < 50 * 1024
+
+        # Reload pipeline
+        reloaded_pipe = joblib.load(model_path)
+        reloaded_encoder = reloaded_pipe.named_steps["encoder"]
+        assert reloaded_encoder.model is None
+
+        # Predict triggers lazy loading transform
+        reloaded_res = reloaded_pipe.predict(X)
+        assert len(reloaded_res) == 2
+    finally:
+        if "sentence_transformers" in sys.modules:
+            del sys.modules["sentence_transformers"]

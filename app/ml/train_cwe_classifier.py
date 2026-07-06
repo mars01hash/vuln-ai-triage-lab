@@ -13,6 +13,7 @@ from sklearn.metrics import accuracy_score, classification_report, confusion_mat
 from sklearn.model_selection import train_test_split
 from sklearn.pipeline import Pipeline
 
+from app.ml.cwe_ml_classifier import SentenceTransformerEncoder
 
 DEFAULT_TRAINING_DATA = Path("data/cwe_training_findings.jsonl")
 DEFAULT_MODEL_PATH = Path("models/cwe_tfidf_logreg.joblib")
@@ -29,17 +30,22 @@ def load_jsonl(path: str | Path) -> list[dict[str, Any]]:
     return rows
 
 
-def build_model() -> Pipeline:
+def build_model(encoder: str = "tfidf", embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2") -> Pipeline:
+    if encoder == "embeddings":
+        vectorizer = SentenceTransformerEncoder(model_name=embedding_model)
+    else:
+        vectorizer = TfidfVectorizer(
+            lowercase=True,
+            ngram_range=(1, 2),
+            min_df=1,
+            max_features=8000,
+        )
+
     return Pipeline(
         steps=[
             (
                 "tfidf",
-                TfidfVectorizer(
-                    lowercase=True,
-                    ngram_range=(1, 2),
-                    min_df=1,
-                    max_features=8000,
-                ),
+                vectorizer,
             ),
             (
                 "clf",
@@ -59,6 +65,8 @@ def train_classifier(
     metrics_path: str | Path = DEFAULT_METRICS_PATH,
     test_size: float = 0.25,
     random_state: int = 42,
+    encoder: str = "tfidf",
+    embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2",
 ) -> dict[str, Any]:
     rows = load_jsonl(input_path)
     if not rows:
@@ -77,7 +85,7 @@ def train_classifier(
         stratify=stratify,
     )
 
-    model = build_model()
+    model = build_model(encoder, embedding_model)
     model.fit(x_train, y_train)
 
     y_pred = model.predict(x_test)
@@ -88,14 +96,16 @@ def train_classifier(
 
     # Train a final model on all available rows after holdout evaluation.
     # The holdout metrics above remain the honest MVP benchmark; the saved model uses all labels.
-    final_model = build_model()
+    final_model = build_model(encoder, embedding_model)
     final_model.fit(x, y)
+
+    model_version = f"embeddings_{embedding_model.split('/')[-1]}_logreg_v1" if encoder == "embeddings" else "tfidf_logreg_v1"
 
     artifact = {
         "model": final_model,
         "labels": labels,
         "metadata": {
-            "model_version": "tfidf_logreg_v1",
+            "model_version": model_version,
             "training_rows": len(rows),
             "train_rows": len(x_train),
             "test_rows": len(x_test),
@@ -132,8 +142,17 @@ def main() -> None:
     parser.add_argument("--output", default=str(DEFAULT_MODEL_PATH))
     parser.add_argument("--metrics", default=str(DEFAULT_METRICS_PATH))
     parser.add_argument("--test-size", type=float, default=0.25)
+    parser.add_argument("--encoder", default="tfidf", choices=["tfidf", "embeddings"], help="Feature extraction method to use.")
+    parser.add_argument("--embedding-model", default="sentence-transformers/all-MiniLM-L6-v2", help="Pre-trained embedding model name.")
     args = parser.parse_args()
-    metrics = train_classifier(args.input, args.output, args.metrics, args.test_size)
+    metrics = train_classifier(
+        args.input,
+        args.output,
+        args.metrics,
+        args.test_size,
+        encoder=args.encoder,
+        embedding_model=args.embedding_model,
+    )
     print(json.dumps(metrics, indent=2))
 
 
